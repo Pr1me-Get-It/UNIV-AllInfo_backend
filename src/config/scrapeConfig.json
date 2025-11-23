@@ -1,0 +1,13 @@
+[
+  {
+    "name": "CSE",
+    "description": "컴퓨터학부 홈페이지",
+    "baseUrl": "https://cse.knu.ac.kr/bbs/board.php?bo_table=",
+    "paths": ["sub5_1", "sub5_3_a", "sub5_3_b", "sub5_4"]
+  },
+  {
+    "name": "test",
+    "description": "test 홈페이지",
+    "baseUrl": "https://test.com"
+  }
+]
