@@ -1,19 +1,8 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import axios from "axios";
-import * as cheerio from "cheerio";
 import { findTwoBySource, findOneLatest, saveNotice } from "./dbService.js";
-
-/**
- * notice object type 정의
- * @typedef {Object} Notice
- * @property {number} id
- * @property {string} source
- * @property {string} title
- * @property {string} date
- * @property {string} link
- */
+import extractNoticesFromPath from "../utils/extractNoticesFromPath.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -24,6 +13,8 @@ const scrapeConfigs = JSON.parse(fs.readFileSync(configPath, "utf-8"));
 /** 모든 스크랩퍼 실행 */
 const runAllScrapers = async () => {
   await scrapeCSE();
+  await scrapeSEE();
+  await scrapeELE();
 };
 
 /** DB 저장 */
@@ -33,9 +24,10 @@ const checkAndSaveNotice = async (notices, source) => {
   const latestNotices = await findTwoBySource(source);
   console.log("Latest notices from DB:", latestNotices); // testing
   for (const notice of notices) {
+    // 공지가 내려가는 것 방지 2개씩 비교
     if (
-      latestNotices[0].title === notice.title ||
-      latestNotices[1].title === notice.title
+      (latestNotices[0] && latestNotices[0].title === notice.title) ||
+      (latestNotices[1] && latestNotices[1].title === notice.title)
     ) {
       console.log(`Notice already exists: ${notice.title}`); // testing
       break;
@@ -51,46 +43,38 @@ const checkAndSaveNotice = async (notices, source) => {
 
 const scrapeCSE = async () => {
   const config = scrapeConfigs.find((c) => c.name === "CSE");
+  for (const p of config.paths) {
+    const { notices, source } = await extractNoticesFromPath(config, p, {
+      titleTdIndex: 1,
+      dateTdIndex: 4,
+      linkAnchorIndex: 1,
+    });
+    await checkAndSaveNotice(notices, source);
+  }
+};
 
-  for (const path of config.paths) {
-    const notices = [];
-    const url = config.baseUrl + path;
-    const source = config.name + path;
-    try {
-      const response = await axios.get(url);
-      const html = response.data;
-      const $ = cheerio.load(html);
-      $("tbody tr").each((index, element) => {
-        /** @type {Notice} */
-        const notice = {};
-        notice.source = source;
-        // 1번째(title)와 4번째(postedDate) td 요소 가져오기
-        $("td", element).each((tdIndex, tdElement) => {
-          if (tdIndex === 1) {
-            /* 
-            title 앞 장학이나 일반공지 등 문구 붙는데
-            나중에 피드백 유무에 따라 지우든가 말든가 하겠습니다.
-            */
-            const title = $(tdElement).text().replace(/\s+/g, " ").trim();
-            notice.title = title;
-          }
-          if (tdIndex === 4) {
-            const date = $(tdElement).text().trim();
-            notice.date = date;
-          }
-        });
-        // link 2갠데 뒤에 것을 취함
-        $("td a", element).each((linkIndex, linkElement) => {
-          if (linkIndex === 1) {
-            const link = $(linkElement).attr("href");
-            notice.link = link;
-          }
-        });
-        notices.push(notice);
-      });
-    } catch (error) {
-      console.error(`Error scraping CSE at path ${path}:`, error);
-    }
+const scrapeSEE = async () => {
+  const config = scrapeConfigs.find((c) => c.name === "SEE");
+
+  for (const p of config.paths) {
+    const { notices, source } = await extractNoticesFromPath(config, p, {
+      titleTdIndex: 1,
+      dateTdIndex: 3,
+      linkAnchorIndex: null,
+    });
+    await checkAndSaveNotice(notices, source);
+  }
+};
+
+const scrapeELE = async () => {
+  const config = scrapeConfigs.find((c) => c.name === "ELE");
+
+  for (const p of config.paths) {
+    const { notices, source } = await extractNoticesFromPath(config, p, {
+      titleTdIndex: 1,
+      dateTdIndex: 4,
+      linkAnchorIndex: null,
+    });
     await checkAndSaveNotice(notices, source);
   }
 };
