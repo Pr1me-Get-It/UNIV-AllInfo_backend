@@ -41,6 +41,6 @@ try {
 
 app.use("/", router);
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(` ✔ Running - Server Status`);
 });
