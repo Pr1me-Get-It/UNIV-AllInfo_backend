@@ -8,7 +8,7 @@ const MONGODB_URI = process.env.MONGODB_URI + COLLECTION;
 const dbConnect = async () => {
   try {
     await mongoose.connect(MONGODB_URI);
-    console.log("Notice DB Connected!");
+    console.log(" ✔ Active  - DB Connection");
   } catch (error) {
     console.log(error);
   }

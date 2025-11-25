@@ -13,12 +13,21 @@ const getAllNotices = async (req, res) => {
     const keyword = req.query.keyword ? String(req.query.keyword).trim() : "";
 
     if (keyword) {
-      const notices = await getNoticesByKeyword(keyword, page, 15);
-      return res.status(200).json(notices);
+      const dbData = await getNoticesByKeyword(keyword, page, 15);
+      for (const notice of dbData.notices) {
+        delete notice._id;
+        delete notice.__v;
+      }
+      return res.status(200).json(dbData);
     }
 
-    const notices = await getLatestNotices(page, 15);
-    res.status(200).json(notices);
+    const dbData = await getLatestNotices(page, 15);
+    for (const notice of dbData.notices) {
+      delete notice._id;
+      delete notice.__v;
+      notice.source = notice.source.slice(0, 3);
+    }
+    res.status(200).json(dbData);
   } catch (error) {
     console.error("Error getting notices:", error);
     res.status(500).json({ success: false, message: "Server Error" });
