@@ -1,6 +1,7 @@
 import winston from "winston";
 import fs from "fs";
 import path from "path";
+import { formatKST } from "../utils/time.js";
 
 // ensure logs directory exists (keep logs in project-root/logs)
 const logsDir = path.join(process.cwd(), "logs");
@@ -15,7 +16,11 @@ try {
 const logger = winston.createLogger({
   level: "info",
   format: winston.format.combine(
-    winston.format.timestamp(),
+    // inject KST timestamp
+    winston.format((info) => {
+      info.timestamp = formatKST(new Date());
+      return info;
+    })(),
     winston.format.printf(({ timestamp, level, message }) => {
       return `${timestamp} [${level.toUpperCase()}] : ${message}`;
     })

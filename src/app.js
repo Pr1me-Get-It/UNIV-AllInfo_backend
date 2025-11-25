@@ -9,6 +9,9 @@ import scrapeScheduler from "./schedulers/scrapeScheduler.js";
 
 dotenv.config();
 
+// Ensure process uses Korea Standard Time
+process.env.TZ = "Asia/Seoul";
+
 console.log(`
   _    _ _   _ _______      __           _ _ _____        __      
  | |  | | \\ | |_   _\\ \\    / /     /\\   | | |_   _|      / _|     
@@ -28,7 +31,7 @@ app.use(cors());
 
 app.use(createMorganMiddleware(logger));
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 
 await dbConnect();
 
