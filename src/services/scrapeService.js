@@ -3,6 +3,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { findTwoBySource, findOneLatest, saveNotice } from "./dbService.js";
 import extractNoticesFromPath from "../utils/extractNoticesFromPath.js";
+import { scrapeLogger as logger } from "../config/logger.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -22,14 +23,18 @@ const checkAndSaveNotice = async (notices, source) => {
   let countForId = Number((await findOneLatest())?.id) || 0;
   const newNotices = [];
   const latestNotices = await findTwoBySource(source);
-  console.log("Latest notices from DB:", latestNotices); // testing
+  logger.info(
+    `Latest notices from DB for ${source.slice(0, 3)}: ${JSON.stringify(
+      latestNotices.map((n) => n.title)
+    )}`
+  );
   for (const notice of notices) {
     // 공지가 내려가는 것 방지 2개씩 비교
     if (
       (latestNotices[0] && latestNotices[0].title === notice.title) ||
       (latestNotices[1] && latestNotices[1].title === notice.title)
     ) {
-      console.log(`Notice already exists: ${notice.title}`); // testing
+      logger.info(`Notice already exists: "${notice.title}"`);
       break;
     }
     newNotices.push(notice);
@@ -37,7 +42,7 @@ const checkAndSaveNotice = async (notices, source) => {
   for (const notice of newNotices.reverse()) {
     notice.id = ++countForId;
     await saveNotice(notice);
-    console.log(`Saved notice: ${notice.id} ${notice.title}`); // testing
+    logger.info(`Saved notice: ${notice.id} "${notice.title}"`);
   }
 };
 
