@@ -2,7 +2,7 @@
 
 ## !! Warning !!
 
-main 브랜치에 push 시 AWS EC2에 자동으로 deploy 됩니다
+**main 브랜치에 push 시 AWS EC2에 자동으로 deploy 됩니다**
 
 ### 곧 구현 될 API
 
