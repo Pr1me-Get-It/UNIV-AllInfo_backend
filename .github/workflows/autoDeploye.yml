@@ -19,7 +19,7 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_KEY }}
           script: |
-            cd /home/ubuntu/UNIV-allInfo_backend
+            cd /home/ubuntu/UNIV-AllInfo_backend
             git pull origin main
             npm install
             sudo pm2 restart univ-allinfo
