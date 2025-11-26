@@ -33,6 +33,8 @@ const extractNoticesFromPath = async (config, path, options = {}) => {
 
       $("td", element).each((tdIndex, tdElement) => {
         if (tdIndex === titleTdIndex) {
+          // em태그의 '새글' 등 포함되는 이슈 방지
+          $(tdElement).find("em").remove();
           const title = $(tdElement).text().replace(/\s+/g, " ").trim();
           notice.title = title;
         }
