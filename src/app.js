@@ -27,6 +27,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// TODO: 우리 도메인 등록
 app.use(cors());
 
 app.use(createMorganMiddleware(logger));

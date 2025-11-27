@@ -1,7 +1,11 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import { findTwoBySource, findOneLatest, saveNotice } from "./dbService.js";
+import {
+  findTwoBySource,
+  findOneLatest,
+  saveNotice,
+} from "./noticeDbService.js";
 import extractNoticesFromPath from "../utils/extractNoticesFromPath.js";
 import { scrapeLogger as logger } from "../config/logger.js";
 

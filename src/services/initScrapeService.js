@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import { findOneLatest, saveNotice } from "./dbService.js";
+import { findOneLatest, saveNotice } from "./noticeDbService.js";
 import extractNoticesFromPath from "../utils/extractNoticesFromPath.js";
 
 const __filename = fileURLToPath(import.meta.url);

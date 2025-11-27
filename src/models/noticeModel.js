@@ -6,6 +6,8 @@ const noticeSchema = new mongoose.Schema({
   title: { type: String, required: true },
   date: { type: String, required: true },
   link: { type: String, required: true },
+  likeArray: { type: [String], default: [] },
+  deadline: { type: mongoose.Schema.Types.Mixed, default: null },
 });
 
 const Notice = mongoose.model("Notice", noticeSchema);
