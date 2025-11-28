@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
-  expoPushToken: { type: String, required: true },
+  expoPushToken: { type: String, required: false },
   keywordForPush: { type: [String], default: [] },
 });
 
