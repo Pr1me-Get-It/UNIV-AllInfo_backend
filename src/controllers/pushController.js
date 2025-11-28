@@ -12,6 +12,7 @@ const testPush = async (req, res) => {
   try {
     const email = req.query.email;
     const expoPushToken = (await User.findOne({ email: email })).expoPushToken;
+    console.log("expoPushToken:", expoPushToken);
     const message = buildPushMessage(expoPushToken, "Test Title", "Test Body");
     await sendPushNotification([message]);
     res

@@ -6,12 +6,23 @@ import User from "../models/userModel.js";
  */
 const registerUser = async (req, res) => {
   try {
+    console.log("registerUser body:", req.body);
     const email = req.body.email;
     const token = req.body.expoPushToken;
     const existingUser = await User.findOne({ email: email });
     // 설마 expoPushToken이 없는채로 가입되는 일이 있겠어
     //  실제로 그 일이 생겨버렸습니다.ㅠㅠ
     if (existingUser) {
+      // If token provided and different from stored one, update it
+      if (token && existingUser.expoPushToken !== token) {
+        existingUser.expoPushToken = token;
+        await existingUser.save();
+        console.log(`Updated token for existing user ${email}`);
+        return res.status(200).json({
+          success: true,
+          message: "User already registered, token updated",
+        });
+      }
       return res
         .status(200)
         .json({ success: true, message: "User already registered" });
@@ -20,6 +31,7 @@ const registerUser = async (req, res) => {
         email: email,
         expoPushToken: token,
       });
+      console.log("createdUser:", createdUser);
       return res.status(201).json({
         success: true,
         message: `User registered successfully with email: ${createdUser.email}`,
