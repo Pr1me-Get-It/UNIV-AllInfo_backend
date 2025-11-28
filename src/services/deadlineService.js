@@ -13,6 +13,8 @@ const getDeadlineFromNotice = async (notice) => {
       "서류 접수",
       "모집기간",
       "모집 기간",
+      "제출 기한",
+      "제출기한",
     ];
     const response = await axios.get(url);
     const html = response.data;
