@@ -1,4 +1,5 @@
-/** 온갖 Date 파싱 (잘 만듦)
+/**
+ * 온갖 Date 파싱 (잘 만듦)
  * Returns an object: { start: 'YYYY-MM-DD' | null, end: 'YYYY-MM-DD' | null }
  */
 const normalizeToRange = (input) => {
@@ -33,7 +34,6 @@ const normalizeToRange = (input) => {
     const di = Number(d);
     if (mi < 1 || mi > 12) return false;
     if (di < 1 || di > 31) return false;
-    // quick check using Date object
     const dt = new Date(yi, mi - 1, di);
     return (
       dt.getFullYear() === yi && dt.getMonth() === mi - 1 && dt.getDate() === di
@@ -46,11 +46,9 @@ const normalizeToRange = (input) => {
     fullDates.push([Number(m[1]), Number(m[2]), Number(m[3])]);
   }
 
-  // helper to parse a single fragment (may contain year or not)
   const parseSingle = (fragment, defaultYear = null) => {
     if (!fragment) return null;
     const str = fragment.trim();
-    // try full date with 4-digit year
     fullDateRe.lastIndex = 0;
     const f = fullDateRe.exec(str);
     if (f) {
@@ -60,7 +58,6 @@ const normalizeToRange = (input) => {
       if (isValidDateParts(y, mo, da)) return { y, mo, da };
       return null;
     }
-    // try two-digit year
     const twoDigitYearRe =
       /(\d{2})\s*[.\-년\/]\s*(\d{1,2})\s*[.\-월\/]\s*(\d{1,2})/g;
     twoDigitYearRe.lastIndex = 0;
@@ -72,7 +69,6 @@ const normalizeToRange = (input) => {
       if (isValidDateParts(y, mo, da)) return { y, mo, da };
       return null;
     }
-    // try month/day (may be ambiguous without defaultYear)
     monthDayRe.lastIndex = 0;
     const md = monthDayRe.exec(str);
     if (md) {
@@ -82,7 +78,6 @@ const normalizeToRange = (input) => {
       if (isValidDateParts(y, mo, da)) return { y, mo, da };
       return null;
     }
-    // try ISO
     const iso = str.match(/(\d{4}-\d{2}-\d{2})/);
     if (iso) {
       const [y, mo, da] = iso[1].split("-").map(Number);
@@ -91,18 +86,15 @@ const normalizeToRange = (input) => {
     return null;
   };
 
-  // Main logic: handle ranges and single dates
   if (s.includes("~")) {
     const parts = s.split("~");
     const left = parts[0] || "";
     const right = parts[1] || "";
-    // parse left (prefer full year if present)
     const leftParsed = parseSingle(left, null);
     let leftYear = leftParsed ? leftParsed.y : null;
     const start = leftParsed
       ? fmt(leftParsed.y, leftParsed.mo, leftParsed.da)
       : null;
-    // parse right, prefer leftYear if available
     const rightParsed = parseSingle(
       right,
       leftYear || new Date().getFullYear()
@@ -113,7 +105,6 @@ const normalizeToRange = (input) => {
     return { start, end };
   }
 
-  // no range: try to parse entire string
   const singleParsed = parseSingle(s, null);
   if (singleParsed) {
     const d = fmt(singleParsed.y, singleParsed.mo, singleParsed.da);

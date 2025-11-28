@@ -7,13 +7,18 @@ import User from "../models/userModel.js";
 const registerUser = async (req, res) => {
   try {
     const email = req.body.email;
+    const expoPushToken = req.body.expoPushToken;
     const existingUser = await User.findOne({ email: email });
+    // 설마 expoPushToken이 없는채로 가입되는 일이 있겠어
     if (existingUser) {
       return res
         .status(200)
         .json({ success: true, message: "User already registered" });
     } else {
-      const createdUser = await User.create({ email: email });
+      const createdUser = await User.create({
+        email: email,
+        expoPushToken: expoPushToken,
+      });
       return res.status(201).json({
         success: true,
         message: `User registered successfully with email: ${createdUser.email}`,
