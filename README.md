@@ -254,14 +254,14 @@ Status: 500
 | 이름  | 타입   | 설명                      | 필수 여부 | 예시               |
 | ----- | ------ | ------------------------- | --------- | ------------------ |
 | email | string | 등록할 사용자 이메일 주소 | 예        | `user@example.com` |
-| token | string | 토큰주세요                | 예        |                    |
+| expoPushToken | string | 토큰주세요                | 예        |                    |
 
 예시:
 
 ```
 {
 	"email": "user@example.com",
-	"token" : token
+	"expoPushToken" : token
 }
 ```
 
