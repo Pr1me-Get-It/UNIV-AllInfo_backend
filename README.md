@@ -4,11 +4,6 @@
 
 **main 브랜치에 push 시 AWS EC2에 자동으로 deploy 됩니다**
 
-### 곧 구현 될 API
-
-- 신청 마감일 등 date 추출 API
-- 푸쉬알림 관련 키워드 등록 수정 등 API
-- 좋아요 관련 API
 
 ### 현재 구현 된 API
 
