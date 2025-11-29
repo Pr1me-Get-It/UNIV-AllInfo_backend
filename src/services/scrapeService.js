@@ -53,19 +53,20 @@ const checkAndSaveNotice = async (notices, source) => {
     await saveNotice(notice);
     logger.info(`Saved notice: ${notice.id} "${notice.title}"`);
   }
+  return newNotices;
 };
 
 const scrapeCSE = async () => {
-  const config = scrapeConfigs.find((c) => c.name === "CSE");
   const newNotices = [];
+  const config = scrapeConfigs.find((c) => c.name === "CSE");
   for (const p of config.paths) {
     const { notices, source } = await extractNoticesFromPath(config, p, {
       titleTdIndex: 1,
       dateTdIndex: 4,
       linkAnchorIndex: 1,
     });
-    await checkAndSaveNotice(notices, source);
-    newNotices.push(...notices);
+    const newNoticesFromCheck = await checkAndSaveNotice(notices, source);
+    newNotices.push(...newNoticesFromCheck);
   }
 
   return newNotices;
@@ -80,8 +81,8 @@ const scrapeSEE = async () => {
       dateTdIndex: 3,
       linkAnchorIndex: null,
     });
-    await checkAndSaveNotice(notices, source);
-    newNotices.push(...notices);
+    const newNoticesFromCheck = await checkAndSaveNotice(notices, source);
+    newNotices.push(...newNoticesFromCheck);
   }
 
   return newNotices;
@@ -96,8 +97,8 @@ const scrapeELE = async () => {
       dateTdIndex: 4,
       linkAnchorIndex: null,
     });
-    await checkAndSaveNotice(notices, source);
-    newNotices.push(...notices);
+    const newNoticesFromCheck = await checkAndSaveNotice(notices, source);
+    newNotices.push(...newNoticesFromCheck);
   }
 
   return newNotices;
