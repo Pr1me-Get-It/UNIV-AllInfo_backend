@@ -47,23 +47,29 @@ const sendKeywordPush = async (newNotices) => {
       }
     }
     if (Object.keys(noticeForPush).length > 1) {
+      let body = Object.values(noticeForPush)[0].title;
+      body =
+        body.toString().slice(0, 30) +
+        "... 외 " +
+        (Object.keys(noticeForPush).length - 1) +
+        "건";
       const message = buildPushMessage(
         user.expoPushToken,
         `[${Object.keys(noticeForPush).join(
           ", "
         )}] 관련 새 공고가 등록되었습니다!`,
-        `${Object.values(noticeForPush)[0].title.slice(0, 30)}... 외 ${
-          Object.keys(noticeForPush).length - 1
-        }건`
+        `${body}`
       );
       messages.push(message);
     } else if (Object.keys(noticeForPush).length === 1) {
       const keyword = Object.keys(noticeForPush)[0];
       const notices = noticeForPush[keyword];
+      let body = notices[0].title;
+      body = body.toString().slice(0, 30) + "...";
       const message = buildPushMessage(
         user.expoPushToken,
         `[${keyword}] 관련 새 공고가 등록되었습니다!`,
-        `${notices[0].title.slice(0, 30)}...`
+        `${body}`
       );
       messages.push(message);
     }
