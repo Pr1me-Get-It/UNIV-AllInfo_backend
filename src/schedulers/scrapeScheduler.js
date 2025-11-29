@@ -3,9 +3,9 @@ import runAllScrapers from "../services/scrapeService.js";
 import { scrapeLogger as logger } from "../config/logger.js";
 import { formatKST } from "../utils/time.js";
 
-// 매일 2시부터 22시까지 4시간 간격으로 실행 (KST timezone)
+// 매일 6시부터 22시까지 4시간 간격으로 실행 (KST timezone)
 const scrapeScheduler = nodeCron.schedule(
-  "0 2-22/4 * * *",
+  "0 6-22/4 * * *",
   async () => {
     const now = formatKST(new Date());
     logger.info(`Scrape Scheduler started at ${now}`);

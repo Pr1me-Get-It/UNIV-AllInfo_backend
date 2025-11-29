@@ -8,6 +8,7 @@ import {
 } from "./noticeDbService.js";
 import extractNoticesFromPath from "../utils/extractNoticesFromPath.js";
 import { scrapeLogger as logger } from "../config/logger.js";
+import { sendKeywordPush } from "./pushService.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -17,9 +18,13 @@ const scrapeConfigs = JSON.parse(fs.readFileSync(configPath, "utf-8"));
 
 /** 모든 스크랩퍼 실행 */
 const runAllScrapers = async () => {
-  await scrapeCSE();
-  await scrapeSEE();
-  await scrapeELE();
+  const newNotices = [];
+  newNotices.push(...(await scrapeCSE()));
+  newNotices.push(...(await scrapeSEE()));
+  newNotices.push(...(await scrapeELE()));
+
+  const tickets = await sendKeywordPush(newNotices);
+  console.log("Push notification tickets:", tickets);
 };
 
 /** DB 저장 */
@@ -60,6 +65,8 @@ const scrapeCSE = async () => {
     });
     await checkAndSaveNotice(notices, source);
   }
+
+  return notices;
 };
 
 const scrapeSEE = async () => {
@@ -73,6 +80,8 @@ const scrapeSEE = async () => {
     });
     await checkAndSaveNotice(notices, source);
   }
+
+  return notices;
 };
 
 const scrapeELE = async () => {
@@ -86,6 +95,8 @@ const scrapeELE = async () => {
     });
     await checkAndSaveNotice(notices, source);
   }
+
+  return notices;
 };
 
 export default runAllScrapers;

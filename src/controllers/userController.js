@@ -59,7 +59,10 @@ const registerKeyword = async (req, res) => {
         .status(404)
         .json({ success: false, message: "User not found" });
     }
-    user.keywordForPush.push(...keywords);
+    const filteredKeywords = keywords
+      .map((keyword) => keyword.trim())
+      .filter((keyword) => keyword !== "");
+    user.keywordForPush.push(...filteredKeywords);
     await user.save();
     res.status(200).json({
       success: true,
