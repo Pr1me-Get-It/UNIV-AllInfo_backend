@@ -57,6 +57,7 @@ const checkAndSaveNotice = async (notices, source) => {
 
 const scrapeCSE = async () => {
   const config = scrapeConfigs.find((c) => c.name === "CSE");
+  const newNotices = [];
   for (const p of config.paths) {
     const { notices, source } = await extractNoticesFromPath(config, p, {
       titleTdIndex: 1,
@@ -64,14 +65,15 @@ const scrapeCSE = async () => {
       linkAnchorIndex: 1,
     });
     await checkAndSaveNotice(notices, source);
+    newNotices.push(...notices);
   }
 
-  return notices;
+  return newNotices;
 };
 
 const scrapeSEE = async () => {
   const config = scrapeConfigs.find((c) => c.name === "SEE");
-
+  const newNotices = [];
   for (const p of config.paths) {
     const { notices, source } = await extractNoticesFromPath(config, p, {
       titleTdIndex: 1,
@@ -79,14 +81,15 @@ const scrapeSEE = async () => {
       linkAnchorIndex: null,
     });
     await checkAndSaveNotice(notices, source);
+    newNotices.push(...notices);
   }
 
-  return notices;
+  return newNotices;
 };
 
 const scrapeELE = async () => {
   const config = scrapeConfigs.find((c) => c.name === "ELE");
-
+  const newNotices = [];
   for (const p of config.paths) {
     const { notices, source } = await extractNoticesFromPath(config, p, {
       titleTdIndex: 1,
@@ -94,9 +97,10 @@ const scrapeELE = async () => {
       linkAnchorIndex: null,
     });
     await checkAndSaveNotice(notices, source);
+    newNotices.push(...notices);
   }
 
-  return notices;
+  return newNotices;
 };
 
 export default runAllScrapers;
