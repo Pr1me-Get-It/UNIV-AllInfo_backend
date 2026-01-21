@@ -1,15 +1,6 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
-
-/**
- * notice object type 정의
- * @typedef {Object} Notice
- * @property {number} id
- * @property {string} source
- * @property {string} title
- * @property {string} date
- * @property {string} link
- */
+import Notice from "../models/noticeModel.js";
 
 const extractNoticesFromPath = async (config, path, options = {}) => {
   const { titleTdIndex = 1, dateTdIndex = 4, linkAnchorIndex = 1 } = options;
@@ -21,14 +12,13 @@ const extractNoticesFromPath = async (config, path, options = {}) => {
     const html = response.data;
     const $ = cheerio.load(html);
     $("tbody tr").each((index, element) => {
-      /** @type {Notice} */
-      const notice = {};
+      const notice = new Notice();
       notice.source = source;
 
       // 첫번째 td의 number 여부를 판별하여 fixed notice는 건너뛰기
       const firstTdText = $("td", element).first().text().trim();
       if (isNaN(Number(firstTdText)) || firstTdText === "") {
-        return; // continue to next iteration
+        return;
       }
 
       $("td", element).each((tdIndex, tdElement) => {
@@ -40,7 +30,7 @@ const extractNoticesFromPath = async (config, path, options = {}) => {
         }
         if (tdIndex === dateTdIndex) {
           const date = $(tdElement).text().trim();
-          notice.date = date;
+          notice.postedAt = date;
         }
       });
 
@@ -51,7 +41,7 @@ const extractNoticesFromPath = async (config, path, options = {}) => {
             let resolved = null;
             if (rawLink) {
               try {
-                // Resolve against the page URL so '/...' and '?...' and relative paths work
+                // 페이지 URL을 기준으로 '/...' 및 '?...' 따라 상대 경로가 작동하도록 해결
                 resolved = new URL(rawLink, url).toString();
               } catch (e) {
                 console.log("Invalid link format:", rawLink, e);
@@ -80,7 +70,7 @@ const extractNoticesFromPath = async (config, path, options = {}) => {
   } catch (error) {
     console.error(`Error scraping ${config.name} at path ${path}:`, error);
   }
-  return { notices, source };
+  return { notices };
 };
 
 export default extractNoticesFromPath;

@@ -1,5 +1,5 @@
 import { Expo } from "expo-server-sdk";
-import User from "../models/userModel.js";
+import { unverifiedUserModel } from "../models/unverifiedUserModel.js";
 
 const expo = new Expo();
 
@@ -30,10 +30,11 @@ const buildPushMessage = (expoPushToken, title, body, data = {}) => {
 };
 
 const sendKeywordPush = async (newNotices) => {
-  const users = await User.find({
-    "keywordForPush.0": { $exists: true },
-    expoPushToken: { $ne: null },
-  }).lean();
+  // const users = await User.find({
+  //   "keywordForPush.0": { $exists: true },
+  //   expoPushToken: { $ne: null },
+  // }).lean();
+  const users = await unverifiedUserModel.getAllWithKeywords();
   const messages = [];
   for (const user of users) {
     const noticeForPush = {};

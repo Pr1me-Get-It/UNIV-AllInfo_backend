@@ -3,6 +3,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { findOneLatest, saveNotice } from "./noticeDbService.js";
 import extractNoticesFromPath from "../utils/extractNoticesFromPath.js";
+import { noticeModel } from "../models/noticeModel.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -15,24 +16,52 @@ const initRunAllScrapers = async () => {
   const notices = [];
   notices.push(...(await scrapeCSE()));
   notices.push(...(await scrapeSEE()));
-  notices.push(...(await scrapeELE()));
+
+  notices.push(...(await scrapeAllHome()));
+
+  // 셔플 (같은 소스 공지들 뭉쳐있는 문제 해결)
+  notices.sort(() => Math.random() - 0.5);
 
   // date 기준 내림차순 정렬
-  notices.sort((a, b) => new Date(b.date) - new Date(a.date));
+  notices.sort((a, b) => new Date(b.postedAt) - new Date(a.postedAt));
 
-  let countForId = Number((await findOneLatest())?.id) || 0;
   for (const notice of notices.reverse()) {
-    notice.id = ++countForId;
-    await saveNotice(notice);
-    console.log(`Saved notice: ${notice.id} ${notice.title}`); // testing
+    try {
+      await noticeModel.create(notice);
+      //test
+      console.log(`Saved notice:  ${notice.title}`);
+    } catch (error) {
+      console.error("Error saving notice:", error);
+    }
   }
+};
+
+const scrapeAllHome = async () => {
+  const notices = [];
+  for (const config of scrapeConfigs.filter((c) => c.isHome)) {
+    for (const p of config.paths) {
+      const { notices: extractedNotices } = await extractNoticesFromPath(
+        config,
+        p,
+        {
+          titleTdIndex: 1,
+          dateTdIndex: 4,
+          linkAnchorIndex: null,
+        }
+      );
+      if (Array.isArray(extractedNotices) && extractedNotices.length > 0) {
+        notices.push(...extractedNotices);
+      }
+    }
+  }
+  return notices;
 };
 
 const scrapeCSE = async () => {
   const notices = [];
   const config = scrapeConfigs.find((c) => c.name === "CSE");
   for (const p of config.paths) {
-    const { notices: extractedNotices, source } = await extractNoticesFromPath(
+    const { notices: extractedNotices } = await extractNoticesFromPath(
       config,
       p,
       {
@@ -53,33 +82,12 @@ const scrapeSEE = async () => {
   const config = scrapeConfigs.find((c) => c.name === "SEE");
 
   for (const p of config.paths) {
-    const { notices: extractedNotices, source } = await extractNoticesFromPath(
+    const { notices: extractedNotices } = await extractNoticesFromPath(
       config,
       p,
       {
         titleTdIndex: 1,
         dateTdIndex: 3,
-        linkAnchorIndex: null,
-      }
-    );
-    if (Array.isArray(extractedNotices) && extractedNotices.length > 0) {
-      notices.push(...extractedNotices);
-    }
-  }
-  return notices;
-};
-
-const scrapeELE = async () => {
-  const notices = [];
-  const config = scrapeConfigs.find((c) => c.name === "ELE");
-
-  for (const p of config.paths) {
-    const { notices: extractedNotices, source } = await extractNoticesFromPath(
-      config,
-      p,
-      {
-        titleTdIndex: 1,
-        dateTdIndex: 4,
         linkAnchorIndex: null,
       }
     );
