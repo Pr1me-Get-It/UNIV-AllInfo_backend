@@ -53,5 +53,22 @@ const readByKeyword = async (keyword, offset, limit) => {
   return rows;
 };
 
-export const noticeModel = { create, read, readById, readByKeyword };
+const readBySource = async (source, offset, limit) => {
+  const rows = await query(
+    `SELECT * FROM notices
+      WHERE source LIKE ?
+      ORDER BY posted_at DESC 
+      LIMIT ?, ?`,
+    [`%${source}%`, (offset - 1) * limit, limit],
+  );
+  return rows;
+};
+
+export const noticeModel = {
+  create,
+  read,
+  readById,
+  readByKeyword,
+  readBySource,
+};
 export default Notice;

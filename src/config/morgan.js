@@ -16,7 +16,7 @@ const createMorganMiddleware = (logger) => {
   });
 
   const combinedWithDecodedUrl =
-    ':remote-addr - :remote-user [:date[clf]] ":method :decoded-url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"';
+    ':remote-addr - :remote-user ":method :decoded-url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"';
 
   return morgan(combinedWithDecodedUrl, {
     stream: {
