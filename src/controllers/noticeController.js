@@ -7,24 +7,25 @@ import { getDeadlineFromNotice } from "../services/deadlineService.js";
 /**
  * @desc 최신 공지사항 가져오기
  * @route GET /notice?p={pageNumber}&keyword={searchKeyword}&source={source}
+ * &order={ASC|DESC}&limit={numberOfItems}
  */
 const getAllNotices = async (req, res) => {
   try {
     const page = parseInt(req.query.p) || 1;
-    const keyword = req.query.keyword ? String(req.query.keyword).trim() : "";
-    const source = req.query.source ? String(req.query.source).trim() : "";
+    const limit = parseInt(req.query.limit) || 15;
+    const keyword = req.query.keyword ? String(req.query.keyword).trim() : null;
+    const source = req.query.source ? String(req.query.source).trim() : null;
+    const order = req.query.order
+      ? String(req.query.order).trim().toUpperCase()
+      : "DESC";
 
-    if (keyword) {
-      const notices = await noticeModel.readByKeyword(keyword, page, 15);
-      return res.status(200).json(notices);
-    }
-
-    if (source) {
-      const notices = await noticeModel.readBySource(source, page, 15);
-      return res.status(200).json(notices);
-    }
-
-    const notices = await noticeModel.read(page, 15);
+    const notices = await noticeModel.readFiltered({
+      keyword,
+      source,
+      offset: page,
+      limit,
+      order,
+    });
     return res.status(200).json(notices);
   } catch (error) {
     console.error("Error getting notices:", error);
