@@ -54,6 +54,30 @@ const likeNotice = async (req, res) => {
 };
 
 /**
+ * @desc unlike notice
+ * @route DELETE /notice/:id/like
+ */
+const unlikeNotice = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const email = req.body.email;
+    const user = await unverifiedUserModel.readByEmail(email);
+    const like = new Like({ noticeId: id, userId: user.unverified_user_id });
+    const result = await likeModel.remove(like);
+    if (result.affectedRows === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Like not found for this user and notice",
+      });
+    }
+    res.status(200).json({ success: true, message: "Notice unliked" });
+  } catch (error) {
+    console.error("Error unliking notice:", error);
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+};
+
+/**
  * @desc get total likes for a notice
  * @route GET /notice/:id/like
  */
@@ -88,9 +112,14 @@ const getDeadLineNotices = async (req, res) => {
           .status(404)
           .json({ success: false, message: "Notice not found" });
       }
-      const { start: kickoff, end: deadline } =
-        await getDeadlineFromNotice(notice);
-      const result = await deadlineModel.create({
+      const deadlineObj = await getDeadlineFromNotice(notice);
+      let kickoff = null;
+      let deadline = null;
+      if (deadlineObj) {
+        kickoff = deadlineObj.start;
+        deadline = deadlineObj.end;
+      }
+      await deadlineModel.create({
         noticeId: id,
         kickoff: kickoff,
         deadline: deadline,

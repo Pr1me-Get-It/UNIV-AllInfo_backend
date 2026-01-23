@@ -141,3 +141,6 @@ vite.config.ts.timestamp-*
 *.pem
 *.sql
 docker-compose.yml
+git_token.txt
+
+temp.json

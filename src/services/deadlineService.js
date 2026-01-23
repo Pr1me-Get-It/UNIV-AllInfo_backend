@@ -15,6 +15,8 @@ const getDeadlineFromNotice = async (notice) => {
       "제출기한",
       "서류접수",
       "서류 접수",
+      "입력기한",
+      "입력 기한",
       "일시",
     ];
     const response = await axios.get(url);
@@ -36,6 +38,10 @@ const getDeadlineFromNotice = async (notice) => {
       }
     }
 
+    if (!foundElement) {
+      console.log("No relevant element found for deadline parsing.");
+      return null;
+    }
     let text = foundElement
       .children()
       .map((i, el) => $(el).text().trim())

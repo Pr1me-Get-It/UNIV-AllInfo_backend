@@ -26,5 +26,13 @@ const readById = async (id) => {
   return results;
 };
 
-export const likeModel = { create, readById };
+const remove = async (like) => {
+  const result = await query(
+    `DELETE FROM notice_likes WHERE notice_id = ? AND user_id = ?`,
+    [like.noticeId, like.userId],
+  );
+  return result;
+};
+
+export const likeModel = { create, readById, remove };
 export default Like;
