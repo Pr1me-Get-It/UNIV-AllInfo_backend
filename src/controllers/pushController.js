@@ -1,4 +1,4 @@
-import User from "../models/userModel.js";
+import { unverifiedUserModel } from "../models/unverifiedUserModel.js";
 import {
   buildPushMessage,
   sendPushNotification,
@@ -11,7 +11,8 @@ import {
 const testPush = async (req, res) => {
   try {
     const { email, title, body } = req.body;
-    const expoPushToken = (await User.findOne({ email: email })).expoPushToken;
+    const expoPushToken = (await unverifiedUserModel.readByEmail(email))
+      .expoPushToken;
     console.log("expoPushToken:", expoPushToken);
     const message = buildPushMessage(expoPushToken, title, body);
     await sendPushNotification([message]);

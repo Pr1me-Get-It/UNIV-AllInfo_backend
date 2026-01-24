@@ -1,17 +1,39 @@
-import mongoose from "mongoose";
+import mysql from "mysql2/promise";
 import dotenv from "dotenv";
 dotenv.config();
 
-const COLLECTION = "Notice";
-const MONGODB_URI = process.env.MONGODB_URI + COLLECTION;
+const pool = mysql.createPool({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
+});
 
-const dbConnect = async () => {
-  try {
-    await mongoose.connect(MONGODB_URI);
-    console.log(" ✔ Active  - DB Connection");
-  } catch (error) {
-    console.log(error);
-  }
-};
+// Simple helper to run queries from services
+export async function query(sql, params) {
+  const [rows] = await pool.query(sql, params);
+  return rows;
+}
 
-export default dbConnect;
+export default pool;
+
+// import mongoose from "mongoose";
+// import dotenv from "dotenv";
+// dotenv.config();
+
+// const COLLECTION = "Notice";
+// const MONGODB_URI = process.env.MONGODB_URI + COLLECTION;
+
+// const dbConnect = async () => {
+//   try {
+//     await mongoose.connect(MONGODB_URI);
+//     console.log(" ✔ Active  - DB Connection");
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
+// export default dbConnect;

@@ -1,15 +1,16 @@
 import express from "express";
 import {
-  deleteKeyword,
-  getKeywords,
-  registerKeyword,
   registerUser,
+  registerKeyword,
+  getKeywords,
+  deleteKeyword,
 } from "../controllers/userController.js";
 
 const userRouter = express.Router();
 
 // /user/register
 userRouter.post("/register", registerUser);
+
 // /user/keyword
 userRouter
   .route("/keyword")

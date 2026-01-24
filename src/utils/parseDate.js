@@ -1,6 +1,6 @@
 /**
  * 온갖 Date 파싱 (잘 만듦)
- * Returns an object: { start: 'YYYY-MM-DD' | null, end: 'YYYY-MM-DD' | null }
+ * @Return an object: { start: 'YYYY-MM-DD' | null, end: 'YYYY-MM-DD' | null }
  */
 const normalizeToRange = (input) => {
   if (!input) {
@@ -97,7 +97,7 @@ const normalizeToRange = (input) => {
       : null;
     const rightParsed = parseSingle(
       right,
-      leftYear || new Date().getFullYear()
+      leftYear || new Date().getFullYear(),
     );
     const end = rightParsed
       ? fmt(rightParsed.y, rightParsed.mo, rightParsed.da)
