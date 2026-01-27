@@ -1,82 +1,185 @@
-[
-  {
-    "name": "CSE",
-    "description": "컴퓨터학부 홈페이지",
-    "baseUrl": "https://cse.knu.ac.kr",
-    "paths": [
-      "/bbs/board.php?bo_table=sub5_1",
-      "/bbs/board.php?bo_table=sub5_3_a",
-      "/bbs/board.php?bo_table=sub5_3_b",
-      "/bbs/board.php?bo_table=sub5_4"
-    ],
-    "pathNames": ["공지사항", "학부인재모집", "취업정보", "세미나및행사"],
-    "isHome": false
+{
+  "metadata": {
+    "version": "1.0",
+    "lastUpdated": "2026-01-27",
+    "description": "경북대학교 학과 및 기관별 공지사항 스크래핑 설정"
   },
-  {
-    "name": "SEE",
-    "description": "전자공학부 홈페이지",
-    "baseUrl": "https://see.knu.ac.kr",
-    "paths": [
-      "/content/board/notice.html",
-      "/content/board/seminar.html",
-      "/content/board/employment.html",
-      "/content/board/information.html"
-    ],
-    "isHome": false
-  },
-  {
-    "name": "ELE",
-    "description": "전기공학과 홈페이지",
-    "baseUrl": "https://home.knu.ac.kr",
-    "paths": [
-      "/HOME/electric/sub.htm?nav_code=ele1622787198",
-      "/HOME/electric/sub.htm?nav_code=ele1622787195",
-      "/HOME/electric/sub.htm?nav_code=ele1623042165"
-    ],
-    "isHome": true
-  },
-  {
-    "name": "MUS",
-    "description": "음악학과 홈페이지",
-    "baseUrl": "https://home.knu.ac.kr",
-    "paths": [
-      "/HOME/music/sub.htm?nav_code=mus1622610244",
-      "/HOME/music/sub.htm?nav_code=mus1622610243"
-    ],
-    "isHome": true
-  },
-  {
-    "name": "KMU",
-    "description": "국악학과 홈페이지",
-    "baseUrl": "https://home.knu.ac.kr",
-    "paths": [
-      "/HOME/kmusic/sub.htm?nav_code=kmu1622609949",
-      "/HOME/kmusic/sub.htm?nav_code=kmu1622609948"
-    ],
-    "isHome": true
-  },
-  {
-    "name": "ART",
-    "description": "미술학과 홈페이지",
-    "baseUrl": "https://home.knu.ac.kr",
-    "paths": [
-      "/HOME/arts/sub.htm?nav_code=art1623199694",
-      "/HOME/arts/sub.htm?nav_code=art1623199693"
-    ],
-    "isHome": true
-  },
-  {
-    "name": "VCD",
-    "description": "디자인학과 홈페이지",
-    "baseUrl": "https://home.knu.ac.kr",
-    "paths": [
-      "/HOME/vcd/sub.htm?nav_code=vcd1622551643",
-      "/HOME/vcd/sub.htm?nav_code=vcd1622551671",
-      "/HOME/vcd/sub.htm?nav_code=vcd1622551681",
-      "/HOME/vcd/sub.htm?nav_code=vcd1622551690",
-      "/HOME/vcd/sub.htm?nav_code=vcd1622551702",
-      "/HOME/vcd/sub.htm?nav_code=vcd1622551721"
-    ],
-    "isHome": true
-  }
-]
+  "sources": [
+    {
+      "code": "LMS",
+      "category": "시스템",
+      "college": "전체",
+      "name": "학습관리시스템",
+      "website": "https://lms1.knu.ac.kr",
+      "type": "custom",
+      "boards": [
+        {
+          "name": "공지",
+          "path": "/boards/5fec7dcdf1906539b60ea854/posts"
+        }
+      ]
+    },
+    {
+      "code": "CSE",
+      "category": "학과",
+      "college": "IT대학",
+      "name": "컴퓨터학부",
+      "website": "https://cse.knu.ac.kr",
+      "type": "custom",
+      "boards": [
+        {
+          "name": "공지사항",
+          "path": "/bbs/board.php?bo_table=sub5_1"
+        },
+        {
+          "name": "학부인재모집",
+          "path": "/bbs/board.php?bo_table=sub5_3_a"
+        },
+        {
+          "name": "취업정보",
+          "path": "/bbs/board.php?bo_table=sub5_3_b"
+        },
+        {
+          "name": "세미나및행사",
+          "path": "/bbs/board.php?bo_table=sub5_4"
+        }
+      ]
+    },
+    {
+      "code": "SEE",
+      "category": "학과",
+      "college": "IT대학",
+      "name": "전자공학부",
+      "website": "https://see.knu.ac.kr",
+      "type": "custom",
+      "boards": [
+        {
+          "name": "공지사항",
+          "path": "/content/board/notice.html"
+        },
+        {
+          "name": "세미나",
+          "path": "/content/board/seminar.html"
+        },
+        {
+          "name": "취업정보",
+          "path": "/content/board/employment.html"
+        },
+        {
+          "name": "정보공지",
+          "path": "/content/board/information.html"
+        }
+      ]
+    },
+    {
+      "code": "ELE",
+      "category": "학과",
+      "college": "IT대학",
+      "name": "전기공학과",
+      "website": "https://home.knu.ac.kr",
+      "type": "home",
+      "boards": [
+        {
+          "name": "공지사항",
+          "path": "/HOME/electric/sub.htm?nav_code=ele1622787198"
+        },
+        {
+          "name": "학사공지",
+          "path": "/HOME/electric/sub.htm?nav_code=ele1622787195"
+        },
+        {
+          "name": "취업정보",
+          "path": "/HOME/electric/sub.htm?nav_code=ele1623042165"
+        }
+      ]
+    },
+    {
+      "code": "MUS",
+      "category": "학과",
+      "college": "예술대학",
+      "name": "음악학과",
+      "website": "https://home.knu.ac.kr",
+      "type": "home",
+      "boards": [
+        {
+          "name": "공지사항",
+          "path": "/HOME/music/sub.htm?nav_code=mus1622610244"
+        },
+        {
+          "name": "학사공지",
+          "path": "/HOME/music/sub.htm?nav_code=mus1622610243"
+        }
+      ]
+    },
+    {
+      "code": "KMU",
+      "category": "학과",
+      "college": "예술대학",
+      "name": "국악학과",
+      "website": "https://home.knu.ac.kr",
+      "type": "home",
+      "boards": [
+        {
+          "name": "공지사항",
+          "path": "/HOME/kmusic/sub.htm?nav_code=kmu1622609949"
+        },
+        {
+          "name": "학사공지",
+          "path": "/HOME/kmusic/sub.htm?nav_code=kmu1622609948"
+        }
+      ]
+    },
+    {
+      "code": "ART",
+      "category": "학과",
+      "college": "예술대학",
+      "name": "미술학과",
+      "website": "https://home.knu.ac.kr",
+      "type": "home",
+      "boards": [
+        {
+          "name": "공지사항",
+          "path": "/HOME/arts/sub.htm?nav_code=art1623199694"
+        },
+        {
+          "name": "학사공지",
+          "path": "/HOME/arts/sub.htm?nav_code=art1623199693"
+        }
+      ]
+    },
+    {
+      "code": "VCD",
+      "category": "학과",
+      "college": "예술대학",
+      "name": "디자인학과",
+      "website": "https://home.knu.ac.kr",
+      "type": "home",
+      "boards": [
+        {
+          "name": "공지사항",
+          "path": "/HOME/vcd/sub.htm?nav_code=vcd1622551643"
+        },
+        {
+          "name": "학사공지",
+          "path": "/HOME/vcd/sub.htm?nav_code=vcd1622551671"
+        },
+        {
+          "name": "수강신청",
+          "path": "/HOME/vcd/sub.htm?nav_code=vcd1622551681"
+        },
+        {
+          "name": "취업정보",
+          "path": "/HOME/vcd/sub.htm?nav_code=vcd1622551690"
+        },
+        {
+          "name": "행사공지",
+          "path": "/HOME/vcd/sub.htm?nav_code=vcd1622551702"
+        },
+        {
+          "name": "우수작품",
+          "path": "/HOME/vcd/sub.htm?nav_code=vcd1622551721"
+        }
+      ]
+    }
+  ]
+}

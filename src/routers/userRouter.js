@@ -4,6 +4,9 @@ import {
   registerKeyword,
   getKeywords,
   deleteKeyword,
+  registerSource,
+  getSources,
+  deleteSource,
 } from "../controllers/userController.js";
 
 const userRouter = express.Router();
@@ -17,5 +20,12 @@ userRouter
   .get(getKeywords)
   .post(registerKeyword)
   .delete(deleteKeyword);
+
+// /user/source
+userRouter
+  .route("/source")
+  .get(getSources)
+  .post(registerSource)
+  .delete(deleteSource);
 
 export default userRouter;

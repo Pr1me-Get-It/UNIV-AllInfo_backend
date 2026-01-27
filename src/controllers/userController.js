@@ -1,7 +1,12 @@
-import UnverifiedUser from "../models/unverifiedUserModel.js";
-import { unverifiedUserModel } from "../models/unverifiedUserModel.js";
-import UnverifiedUserPushKeyword from "../models/unverifiedUserPushKeywordModel.js";
-import { unverifiedUserPushKeywordModel } from "../models/unverifiedUserPushKeywordModel.js";
+import UnverifiedUser, {
+  unverifiedUserModel,
+} from "../models/unverifiedUserModel.js";
+import UnverifiedUserPushKeyword, {
+  unverifiedUserPushKeywordModel,
+} from "../models/unverifiedUserPushKeywordModel.js";
+import UnverifiedUserPushSource, {
+  unverifiedUserPushSourceModel,
+} from "../models/unverifiedUserPushSourceModel.js";
 
 /**
  * @desc user registration
@@ -156,4 +161,126 @@ const deleteKeyword = async (req, res) => {
   }
 };
 
-export { registerUser, registerKeyword, getKeywords, deleteKeyword };
+/**
+ * @desc register push source for user
+ * @route POST /user/sources
+ */
+const registerSource = async (req, res) => {
+  const { email, sources } = req.body;
+  try {
+    const user = (await unverifiedUserModel.readByEmail(email)) || null;
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+    const results = [];
+    for (const source of sources) {
+      try {
+        const newSourceRecord = new UnverifiedUserPushSource(
+          user.unverified_user_id,
+          source,
+        );
+        const result =
+          await unverifiedUserPushSourceModel.create(newSourceRecord);
+        results.push(result);
+      } catch (error) {
+        if (error.code === "ER_DUP_ENTRY") {
+          results.push({
+            success: false,
+            message: `Source already exists: ${source}`,
+          });
+          continue;
+        }
+        results.push({
+          success: false,
+          message: `Failed to register source: ${source}`,
+        });
+      }
+    }
+    res.status(201).json({
+      success: true,
+      message: "Sources registered successfully",
+      data: results,
+    });
+  } catch (error) {
+    console.error("Error registering sources:", error);
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to register sources" });
+  }
+};
+
+/**
+ * @desc get push sources for user
+ * @route GET /user/sources
+ */
+const getSources = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = (await unverifiedUserModel.readByEmail(email)) || null;
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+    const userSources =
+      (await unverifiedUserPushSourceModel.readByUserId(
+        user.unverified_user_id,
+      )) || null;
+    res.status(200).json({
+      success: true,
+      data: userSources,
+    });
+  } catch (error) {
+    console.error("Error getting sources:", error);
+    res.status(500).json({ success: false, message: "Failed to get sources" });
+  }
+};
+
+const deleteSource = async (req, res) => {
+  try {
+    const { email, sources } = req.body;
+    const user = (await unverifiedUserModel.readByEmail(email)) || null;
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+    const results = [];
+    for (const source of sources) {
+      try {
+        const result = await unverifiedUserPushSourceModel.remove(
+          user.unverified_user_id,
+          source,
+        );
+        results.push(result);
+      } catch (error) {
+        results.push({
+          success: false,
+          message: `Failed to delete source: ${source}`,
+        });
+      }
+    }
+    res.status(200).json({
+      success: true,
+      message: "Sources deleted successfully",
+      data: results,
+    });
+  } catch (error) {
+    console.error("Error deleting sources:", error);
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to delete sources" });
+  }
+};
+
+export {
+  registerUser,
+  registerKeyword,
+  getKeywords,
+  deleteKeyword,
+  registerSource,
+  getSources,
+  deleteSource,
+};

@@ -2,11 +2,11 @@ import axios from "axios";
 import * as cheerio from "cheerio";
 import Notice from "../models/noticeModel.js";
 
-const extractNoticesFromPath = async (config, path, options = {}) => {
+const extractNoticesFromPath = async (config, board, options = {}) => {
   const { titleTdIndex = 1, dateTdIndex = 4, linkAnchorIndex = 1 } = options;
   const notices = [];
-  const url = config.baseUrl + path;
-  const source = config.name + path;
+  const url = config.website + board.path;
+  const source = config.name + board.name;
   try {
     const response = await axios.get(url);
     const html = response.data;
@@ -68,7 +68,10 @@ const extractNoticesFromPath = async (config, path, options = {}) => {
       notices.push(notice);
     });
   } catch (error) {
-    console.error(`Error scraping ${config.name} at path ${path}:`, error);
+    console.error(
+      `Error scraping ${config.name + board.name} at path ${config.website + board.path}:`,
+      error,
+    );
   }
   return { notices };
 };
