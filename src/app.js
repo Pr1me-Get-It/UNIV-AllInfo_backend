@@ -5,6 +5,8 @@ import logger from "./config/logger.js";
 import router from "./routers/index.js";
 import createMorganMiddleware from "./config/morgan.js";
 import scrapeScheduler from "./schedulers/scrapeScheduler.js";
+import initRunAllScrapers from "./services/initScrapeService.js";
+import runAllScrapers from "./services/scrapeService.js";
 
 dotenv.config();
 
@@ -45,4 +47,6 @@ app.use("/", router);
 
 app.listen(PORT, "0.0.0.0", () => {
   console.log(` ✔ Running - Server Status on PORT ${PORT}`);
+  // initRunAllScrapers();
+  // runAllScrapers();
 });

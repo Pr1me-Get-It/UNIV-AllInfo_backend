@@ -3,6 +3,21 @@ import { unverifiedUserModel } from "../models/unverifiedUserModel.js";
 import Like, { likeModel } from "../models/likeModel.js";
 import { deadlineModel } from "../models/deadlineModel.js";
 import { getDeadlineFromNotice } from "../services/deadlineService.js";
+import { scrapeBIZS, scrapeKNU, scrapeSTRT } from "../utils/scrapeFunc.js";
+
+/**
+ * @desc test용 표적 notice GET
+ * @route GET /notice/test
+ */
+const getTestNotices = async (req, res) => {
+  try {
+    const notices = await scrapeBIZS({ pageRanges: { 공지사항: 1 } }); // 41
+    res.status(200).json(notices);
+  } catch (error) {
+    console.error("Error getting test notices:", error);
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+};
 
 /**
  * @desc 최신 공지사항 가져오기
@@ -149,4 +164,10 @@ const getDeadLineNotices = async (req, res) => {
   }
 };
 
-export { getAllNotices, likeNotice, getLikesForNotice, getDeadLineNotices };
+export {
+  getTestNotices,
+  getAllNotices,
+  likeNotice,
+  getLikesForNotice,
+  getDeadLineNotices,
+};

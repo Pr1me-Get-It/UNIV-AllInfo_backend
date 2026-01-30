@@ -3,10 +3,19 @@ import * as cheerio from "cheerio";
 import Notice from "../models/noticeModel.js";
 
 const extractNoticesFromPath = async (config, board, options = {}) => {
-  const { titleTdIndex = 1, dateTdIndex = 4, linkAnchorIndex = 1 } = options;
+  const {
+    titleTdIndex = 1,
+    dateTdIndex = 4,
+    linkAnchorIndex = 1,
+    pageParamName = null,
+    page = 1,
+  } = options;
   const notices = [];
-  const url = config.website + board.path;
-  const source = config.name + board.name;
+  const url =
+    config.website +
+    board.path +
+    (pageParamName ? `${pageParamName}${page}` : "");
+  const source = [config.code, board.name].join("|");
   try {
     const response = await axios.get(url);
     const html = response.data;
@@ -18,7 +27,7 @@ const extractNoticesFromPath = async (config, board, options = {}) => {
       // 첫번째 td의 number 여부를 판별하여 fixed notice는 건너뛰기
       const firstTdText = $("td", element).first().text().trim();
       if (isNaN(Number(firstTdText)) || firstTdText === "") {
-        return;
+        notice.isFixed = true;
       }
 
       $("td", element).each((tdIndex, tdElement) => {
@@ -69,7 +78,7 @@ const extractNoticesFromPath = async (config, board, options = {}) => {
     });
   } catch (error) {
     console.error(
-      `Error scraping ${config.name + board.name} at path ${config.website + board.path}:`,
+      `Error scraping ${source} at path ${config.website + board.path}:`,
       error,
     );
   }

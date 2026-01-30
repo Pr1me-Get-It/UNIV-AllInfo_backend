@@ -4,9 +4,13 @@ import {
   likeNotice,
   getDeadLineNotices,
   getLikesForNotice,
+  getTestNotices,
 } from "../controllers/noticeController.js";
 
 const noticeRouter = express.Router();
+
+// /notice/test
+noticeRouter.get("/test", getTestNotices);
 
 // /notice
 noticeRouter.get("/", getAllNotices);

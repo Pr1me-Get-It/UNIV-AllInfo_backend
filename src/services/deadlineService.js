@@ -18,6 +18,7 @@ const getDeadlineFromNotice = async (notice) => {
       "입력기한",
       "입력 기한",
       "일시",
+      "일정",
     ];
     const response = await axios.get(url);
     const html = response.data;

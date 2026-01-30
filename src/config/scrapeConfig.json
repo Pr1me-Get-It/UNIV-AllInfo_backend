@@ -20,6 +20,56 @@
       ]
     },
     {
+      "code": "NEWS",
+      "category": "기관",
+      "college": "전체",
+      "name": "경북대학교",
+      "website": "https://www.knu.ac.kr",
+      "type": "custom",
+      "boards": [
+        {
+          "name": "학사공지",
+          "path": "/wbbs/wbbs/bbs/btin/stdList.action?menu_idx=42"
+        },
+        {
+          "name": "공지사항",
+          "path": "/wbbs/wbbs/bbs/btin/list.action?bbs_cde=1&menu_idx=67"
+        }
+      ]
+    },
+    {
+      "code": "STRT",
+      "category": "기관",
+      "college": "전체",
+      "name": "창업교육센터",
+      "website": "https://changup.knu.ac.kr",
+      "type": "custom",
+      "boards": [
+        {
+          "name": "센터공지사항",
+          "path": "/changup/Board?menuId=MENU_CHANGUP0051"
+        },
+        {
+          "name": "외부공지사항",
+          "path": "/changup/Board2?menuId=MENU_CHANGUP0053"
+        }
+      ]
+    },
+    {
+      "code": "BIZS",
+      "category": "기관",
+      "college": "전체",
+      "name": "창업지원단",
+      "website": "https://startup.knu.ac.kr",
+      "type": "custom",
+      "boards": [
+        {
+          "name": "공지사항",
+          "path": "/bbs/board.php?bo_table=noti2"
+        }
+      ]
+    },
+    {
       "code": "CSE",
       "category": "학과",
       "college": "IT대학",
@@ -62,11 +112,11 @@
           "path": "/content/board/seminar.html"
         },
         {
-          "name": "취업정보",
+          "name": "취업",
           "path": "/content/board/employment.html"
         },
         {
-          "name": "정보공지",
+          "name": "정보사랑방",
           "path": "/content/board/information.html"
         }
       ]
@@ -84,11 +134,11 @@
           "path": "/HOME/electric/sub.htm?nav_code=ele1622787198"
         },
         {
-          "name": "학사공지",
+          "name": "취업",
           "path": "/HOME/electric/sub.htm?nav_code=ele1622787195"
         },
         {
-          "name": "취업정보",
+          "name": "정보광장",
           "path": "/HOME/electric/sub.htm?nav_code=ele1623042165"
         }
       ]
@@ -106,7 +156,7 @@
           "path": "/HOME/music/sub.htm?nav_code=mus1622610244"
         },
         {
-          "name": "학사공지",
+          "name": "자료실",
           "path": "/HOME/music/sub.htm?nav_code=mus1622610243"
         }
       ]
@@ -124,7 +174,7 @@
           "path": "/HOME/kmusic/sub.htm?nav_code=kmu1622609949"
         },
         {
-          "name": "학사공지",
+          "name": "자료실",
           "path": "/HOME/kmusic/sub.htm?nav_code=kmu1622609948"
         }
       ]
@@ -142,7 +192,7 @@
           "path": "/HOME/arts/sub.htm?nav_code=art1623199694"
         },
         {
-          "name": "학사공지",
+          "name": "자료실",
           "path": "/HOME/arts/sub.htm?nav_code=art1623199693"
         }
       ]
@@ -156,28 +206,24 @@
       "type": "home",
       "boards": [
         {
-          "name": "공지사항",
+          "name": "학과공지",
           "path": "/HOME/vcd/sub.htm?nav_code=vcd1622551643"
         },
         {
-          "name": "학사공지",
+          "name": "학과행사",
           "path": "/HOME/vcd/sub.htm?nav_code=vcd1622551671"
         },
         {
-          "name": "수강신청",
+          "name": "공모전소식",
           "path": "/HOME/vcd/sub.htm?nav_code=vcd1622551681"
         },
         {
-          "name": "취업정보",
+          "name": "전시회소식",
           "path": "/HOME/vcd/sub.htm?nav_code=vcd1622551690"
         },
         {
-          "name": "행사공지",
+          "name": "구인구직",
           "path": "/HOME/vcd/sub.htm?nav_code=vcd1622551702"
-        },
-        {
-          "name": "우수작품",
-          "path": "/HOME/vcd/sub.htm?nav_code=vcd1622551721"
         }
       ]
     }

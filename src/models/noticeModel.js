@@ -6,11 +6,13 @@ class Notice {
     title = null,
     postedAt = null,
     link = null,
+    isFixed = false,
   } = {}) {
     this.source = source;
     this.title = title;
     this.postedAt = postedAt;
     this.link = link;
+    this.isFixed = isFixed;
   }
 }
 

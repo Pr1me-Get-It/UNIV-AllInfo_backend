@@ -1,12 +1,63 @@
-import { scrapeCSE, scrapeSEE, scrapeAllHome } from "../utils/scrapeFunc.js";
+import {
+  scrapeCSE,
+  scrapeSEE,
+  scrapeAllHome,
+  scrapeKNU,
+  scrapeSTRT,
+  scrapeBIZS,
+} from "../utils/scrapeFunc.js";
 import { noticeModel } from "../models/noticeModel.js";
 
 /** 모든 스크랩퍼 실행 */
 const initRunAllScrapers = async () => {
   const notices = [];
-  notices.push(...(await scrapeCSE()));
-  notices.push(...(await scrapeSEE()));
-  notices.push(...(await scrapeAllHome()));
+  notices.push(
+    ...(await scrapeCSE({
+      pageRanges: {
+        공지사항: 514,
+        학부인재모집: 12,
+        취업정보: 98,
+        세미나및행사: 28,
+      },
+    })),
+  );
+  console.log("CSE Scraper Done");
+  notices.push(
+    ...(await scrapeSEE({
+      pageRanges: { 공지사항: 242, 세미나: 22, 취업: 126, 정보사랑방: 34 },
+    })),
+  );
+  console.log("SEE Scraper Done");
+  notices.push(
+    ...(await scrapeAllHome({
+      pageRanges: {
+        ELE: { 공지사항: 289, 취업: 152, 정보광장: 86 },
+        MUS: { 공지사항: 61, 자료실: 2 },
+        KMU: { 공지사항: 136, 자료실: 1 },
+        ART: { 공지사항: 59, 자료실: 3 },
+        VCD: {
+          학과공지: 14,
+          학과행사: 2,
+          공모전소식: 1,
+          전시회소식: 1,
+          구인구직: 1,
+        },
+      },
+    })),
+  );
+  console.log("All Home Scraper Done");
+  notices.push(
+    ...(await scrapeKNU({ pageRanges: { 학사공지: 1, 공지사항: 1 } })),
+  );
+  console.log("KNU Scraper Done");
+  notices.push(
+    ...(await scrapeSTRT({
+      pageRanges: { 센터공지사항: 1, 외부공지사항: 1 },
+    })),
+    ...(await scrapeBIZS({
+      pageRanges: { 공지사항: 1 },
+    })),
+  );
 
   // 셔플 (같은 소스 공지들 뭉쳐있는 문제 해결)
   notices.sort(() => Math.random() - 0.5);
