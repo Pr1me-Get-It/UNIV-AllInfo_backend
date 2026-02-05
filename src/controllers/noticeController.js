@@ -3,7 +3,7 @@ import { unverifiedUserModel } from "../models/unverifiedUserModel.js";
 import Like, { likeModel } from "../models/likeModel.js";
 import { deadlineModel } from "../models/deadlineModel.js";
 import { getDeadlineFromNotice } from "../services/deadlineService.js";
-import { scrapeBIZS, scrapeKNU, scrapeSTRT } from "../utils/scrapeFunc.js";
+import { scrapeAllHome } from "../utils/scrapeFunc.js";
 
 /**
  * @desc test용 표적 notice GET
@@ -11,7 +11,14 @@ import { scrapeBIZS, scrapeKNU, scrapeSTRT } from "../utils/scrapeFunc.js";
  */
 const getTestNotices = async (req, res) => {
   try {
-    const notices = await scrapeBIZS({ pageRanges: { 공지사항: 1 } }); // 41
+    const notices = await scrapeAllHome({
+      pageRanges: {
+        INTL: {
+          국제화프로그램: 10, // 311
+          InternationalStudents: 17,
+        },
+      },
+    });
     res.status(200).json(notices);
   } catch (error) {
     console.error("Error getting test notices:", error);

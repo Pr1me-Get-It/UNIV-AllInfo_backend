@@ -70,6 +70,46 @@
       ]
     },
     {
+      "code": "DRML",
+      "category": "기관",
+      "college": "전체",
+      "name": "생활관",
+      "website": "https://dorm.knu.ac.kr",
+      "type": "custom",
+      "boards": [
+        {
+          "name": "선발공지사항",
+          "path": "/app/board24"
+        },
+        {
+          "name": "공지사항(BTL)",
+          "path": "/app/board21"
+        },
+        {
+          "name": "공지사항(재정)",
+          "path": "/app/board2"
+        }
+      ]
+    },
+    {
+      "code": "INTL",
+      "category": "기관",
+      "college": "전체",
+      "name": "국제교류처",
+      "website": "https://home.knu.ac.kr",
+      "type": "home",
+      "boards": [
+        {
+          "name": "국제화프로그램",
+          "path": "/HOME/global/sub.htm?nav_code=glo1729572883"
+        },
+        {
+          "name": "InternationalStudents",
+          "path": "/HOME/global/sub.htm?nav_code=glo1729648656"
+        }
+      ]
+    },
+    {
       "code": "CSE",
       "category": "학과",
       "college": "IT대학",

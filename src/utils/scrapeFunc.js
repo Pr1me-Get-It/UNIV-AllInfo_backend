@@ -103,6 +103,10 @@ const scrapeSTRT = async ({ pageRanges = {} }) => {
   return notices;
 };
 
+/**
+ * BIZS (창업지원단) 스크래핑
+ * postedAt 연도 정보 없음
+ */
 const scrapeBIZS = async ({ pageRanges = {} }) => {
   const notices = [];
   const config = scrapeConfigs.find((c) => c.code === "BIZS");
@@ -143,6 +147,50 @@ const scrapeBIZS = async ({ pageRanges = {} }) => {
 };
 
 /**
+ * DRML (생활관) 스크래핑
+ * postedAt 연도 정보 없음
+ * 보정값도 정확도가 현저히 떨어짐
+ */
+const scrapeDRML = async ({ pageRanges = {} }) => {
+  const notices = [];
+  const config = scrapeConfigs.find((c) => c.code === "DRML");
+  for (const board of config.boards) {
+    for (let page = 1; page <= (pageRanges[board.name] || 1); page++) {
+      const { notices: extractedNotices } = await extractNoticesFromPath(
+        config,
+        board,
+        {
+          titleTdIndex: 1,
+          dateTdIndex: 4,
+          linkAnchorIndex: null,
+          pageParamName: "?page=",
+          page: page,
+        },
+      );
+      if (Array.isArray(extractedNotices) && extractedNotices.length > 0) {
+        const fixedNotices = extractedNotices.filter(
+          (notice) => notice.isFixed,
+        );
+        const unfixedNotices = extractedNotices.filter(
+          (notice) => !notice.isFixed,
+        );
+        const itemsF = await mmddToyyyymmdd(fixedNotices);
+        for (let i = 0; i < itemsF.length; i++) {
+          fixedNotices[i].postedAt = itemsF[i].postedAtISO;
+        }
+        const itemsUnf = await mmddToyyyymmdd(unfixedNotices);
+        for (let i = 0; i < itemsUnf.length; i++) {
+          unfixedNotices[i].postedAt = itemsUnf[i].postedAtISO;
+        }
+        notices.push(...fixedNotices, ...unfixedNotices);
+      }
+      console.log(`DRML Scraper - ${board.name} Page ${page} Done`);
+    }
+  }
+  return notices;
+};
+
+/**
  * Home 타입의 모든 학과 스크래핑 (ELE, MUS, KMU, ART, VCD)
  */
 const scrapeAllHome = async ({ pageRanges = {} }) => {
@@ -151,7 +199,7 @@ const scrapeAllHome = async ({ pageRanges = {} }) => {
     for (const board of config.boards) {
       for (
         let page = 1;
-        page <= (pageRanges[config.code][board.name] || 1);
+        page <= (pageRanges[config.code]?.[board.name] || 1);
         page++
       ) {
         const { notices: extractedNotices } = await extractNoticesFromPath(
@@ -162,7 +210,7 @@ const scrapeAllHome = async ({ pageRanges = {} }) => {
             dateTdIndex: 4,
             linkAnchorIndex: null,
             pageParamName: "&startPage=",
-            page: (page - 1) * 10,
+            page: (page - 1) * 10 || 0,
           },
         );
         if (Array.isArray(extractedNotices) && extractedNotices.length > 0) {
@@ -233,6 +281,7 @@ export {
   scrapeKNU,
   scrapeSTRT,
   scrapeBIZS,
+  scrapeDRML,
   scrapeCSE,
   scrapeSEE,
   scrapeAllHome,

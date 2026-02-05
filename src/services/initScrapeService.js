@@ -20,15 +20,9 @@ const initRunAllScrapers = async () => {
         세미나및행사: 28,
       },
     })),
-  );
-  console.log("CSE Scraper Done");
-  notices.push(
     ...(await scrapeSEE({
       pageRanges: { 공지사항: 242, 세미나: 22, 취업: 126, 정보사랑방: 34 },
     })),
-  );
-  console.log("SEE Scraper Done");
-  notices.push(
     ...(await scrapeAllHome({
       pageRanges: {
         ELE: { 공지사항: 289, 취업: 152, 정보광장: 86 },
@@ -44,18 +38,19 @@ const initRunAllScrapers = async () => {
         },
       },
     })),
-  );
-  console.log("All Home Scraper Done");
-  notices.push(
     ...(await scrapeKNU({ pageRanges: { 학사공지: 1, 공지사항: 1 } })),
-  );
-  console.log("KNU Scraper Done");
-  notices.push(
     ...(await scrapeSTRT({
       pageRanges: { 센터공지사항: 1, 외부공지사항: 1 },
     })),
     ...(await scrapeBIZS({
       pageRanges: { 공지사항: 1 },
+    })),
+    ...(await scrapeDRML({
+      pageRanges: {
+        선발공지사항: 58,
+        "공지사항(BTL)": 70,
+        "공지사항(재정)": 82,
+      },
     })),
   );
 
