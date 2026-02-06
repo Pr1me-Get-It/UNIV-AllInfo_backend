@@ -1,7 +1,17 @@
 import { scrapeLogger as logger } from "../config/logger.js";
 import { sendKeywordPush } from "./pushService.js";
 import { noticeModel } from "../models/noticeModel.js";
-import { scrapeCSE, scrapeSEE, scrapeAllHome } from "../utils/scrapeFunc.js";
+import {
+  scrapeCSE,
+  scrapeSEE,
+  scrapeAllHome,
+  scrapeKNU,
+  scrapeSTRT,
+  scrapeBIZS,
+  scrapeDRML,
+  scrapeSPRT,
+  scrapeCOOP,
+} from "../utils/scrapeFunc.js";
 
 /** 모든 스크랩퍼 실행 */
 const runAllScrapers = async () => {
@@ -32,6 +42,16 @@ const runAllScrapers = async () => {
           전시회소식: 1,
           구인구직: 1,
         },
+        INTL: { 국제화프로그램: 1, InternationalStudents: 1 },
+        CARE: { 진로취업: 1, 현장실습: 1 },
+        SCHL: { 공지사항: 1 },
+        EMB: { 공지사항: 1, 모집: 1 },
+        KOR: {
+          학사: 1,
+          "장학/활동": 1,
+          일반: 1,
+          채용정보: 1,
+        },
       },
     })),
     ...(await scrapeKNU({ pageRanges: { 학사공지: 1, 공지사항: 1 } })),
@@ -48,6 +68,8 @@ const runAllScrapers = async () => {
         "공지사항(재정)": 1,
       },
     })),
+    ...(await scrapeSPRT({ pageRanges: { 공지사항: 1 } })),
+    ...(await scrapeCOOP({ pageRanges: { 공지사항: 1 } })),
   );
   newNotices.push(...(await scrapeAndSaveNotices(notices)));
 

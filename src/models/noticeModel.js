@@ -89,7 +89,17 @@ const readFiltered = async ({
   const whereSql = where.length ? `WHERE ${where.join(" AND ")}` : "";
   const sort = order && String(order).toUpperCase() === "ASC" ? "ASC" : "DESC";
   const rows = await query(
-    `SELECT * FROM notices ${whereSql} ORDER BY posted_at ${sort} LIMIT ?, ?`,
+    `SELECT 
+      notice_id,
+      source,
+      title,
+      CONVERT_TZ(posted_at, '+00:00', '+09:00') AS posted_at,
+      link,
+      created_at,
+      link_hash
+    FROM notices ${whereSql}
+    ORDER BY posted_at ${sort}
+    LIMIT ?, ?`,
     [...params, (offset - 1) * limit, limit],
   );
   return rows;

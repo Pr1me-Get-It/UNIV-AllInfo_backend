@@ -190,11 +190,101 @@ const scrapeDRML = async ({ pageRanges = {} }) => {
   return notices;
 };
 
+const scrapeSPRT = async () => {
+  const notices = [];
+  const config = scrapeConfigs.find((c) => c.code === "SPRT");
+  const { notices: extractedNotices } = await extractNoticesFromPath(
+    config,
+    config.boards[0],
+    {
+      titleTdIndex: 1,
+      dateTdIndex: 3,
+      linkAnchorIndex: null,
+      pageParamName: null,
+      page: null,
+    },
+  );
+  if (Array.isArray(extractedNotices) && extractedNotices.length > 0) {
+    notices.push(...extractedNotices);
+  }
+  return notices;
+};
+
+const scrapeALUM = async ({ pageRanges = {} }) => {
+  const notices = [];
+  const config = scrapeConfigs.find((c) => c.code === "ALUM");
+  for (let page = 1; page <= (pageRanges[config.boards[0].name] || 1); page++) {
+    const { notices: extractedNotices } = await extractNoticesFromPath(
+      config,
+      config.boards[0],
+      {
+        titleTdIndex: 1,
+        dateTdIndex: 4,
+        linkAnchorIndex: null,
+        pageParamName: "&pageIndex=",
+        page: page,
+      },
+    );
+    if (Array.isArray(extractedNotices) && extractedNotices.length > 0) {
+      notices.push(...extractedNotices);
+    }
+    console.log(`ALUM Scraper - Page ${page} Done`);
+  }
+  return notices;
+};
+
+const scrapeCOOP = async ({ pageRanges = {} }) => {
+  const notices = [];
+  const config = scrapeConfigs.find((c) => c.code === "COOP");
+  for (let page = 1; page <= (pageRanges[config.boards[0].name] || 1); page++) {
+    const { notices: extractedNotices } = await extractNoticesFromPath(
+      config,
+      config.boards[0],
+      {
+        titleTdIndex: 1,
+        dateTdIndex: 3,
+        linkAnchorIndex: null,
+        pageParamName: "&page_num=",
+        page: page,
+      },
+    );
+    if (Array.isArray(extractedNotices) && extractedNotices.length > 0) {
+      notices.push(...extractedNotices);
+    }
+    console.log(`COOP Scraper - Page ${page} Done`);
+  }
+  return notices;
+};
+
+const scrapeTCHR = async ({ pageRanges = {} }) => {
+  const notices = [];
+  const config = scrapeConfigs.find((c) => c.code === "TCHR");
+  for (let page = 1; page <= (pageRanges[config.boards[0].name] || 1); page++) {
+    const { notices: extractedNotices } = await extractNoticesFromPath(
+      config,
+      config.boards[0],
+      {
+        titleTdIndex: 1,
+        dateTdIndex: 4,
+        linkAnchorIndex: null,
+        pageParamName: "?pgNum=",
+        page: page,
+      },
+    );
+    if (Array.isArray(extractedNotices) && extractedNotices.length > 0) {
+      notices.push(...extractedNotices);
+    }
+    console.log(`TCHR Scraper - Page ${page} Done`);
+  }
+  return notices;
+};
+
 /**
  * Home 타입의 모든 학과 스크래핑 (ELE, MUS, KMU, ART, VCD)
  */
 const scrapeAllHome = async ({ pageRanges = {} }) => {
   const notices = [];
+  // c.type === "home"
   for (const config of scrapeConfigs.filter((c) => c.type === "home")) {
     for (const board of config.boards) {
       for (
@@ -206,8 +296,10 @@ const scrapeAllHome = async ({ pageRanges = {} }) => {
           config,
           board,
           {
-            titleTdIndex: 1,
-            dateTdIndex: 4,
+            titleTdIndex:
+              config.code === "CARE" && board.name === "진로취업" ? 2 : 1,
+            dateTdIndex:
+              config.code === "CARE" && board.name === "진로취업" ? 5 : 4,
             linkAnchorIndex: null,
             pageParamName: "&startPage=",
             page: (page - 1) * 10 || 0,
@@ -282,7 +374,11 @@ export {
   scrapeSTRT,
   scrapeBIZS,
   scrapeDRML,
+  scrapeSPRT,
+  scrapeALUM,
   scrapeCSE,
   scrapeSEE,
   scrapeAllHome,
+  scrapeCOOP,
+  scrapeTCHR,
 };

@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "version": "1.0",
-    "lastUpdated": "2026-01-27",
+    "version": "0.1",
+    "lastUpdated": "2026-02-06",
     "description": "경북대학교 학과 및 기관별 공지사항 스크래핑 설정"
   },
   "sources": [
@@ -110,6 +110,112 @@
       ]
     },
     {
+      "code": "CARE",
+      "category": "기관",
+      "college": "전체",
+      "name": "진로취업과",
+      "website": "https://home.knu.ac.kr/",
+      "type": "home",
+      "boards": [
+        {
+          "name": "진로취업",
+          "path": "/HOME/knujob/sub.htm?nav_code=knu1623817159"
+        },
+        {
+          "name": "현장실습",
+          "path": "/HOME/knujob/sub.htm?nav_code=knu1623826179"
+        }
+      ]
+    },
+    {
+      "code": "SCHL",
+      "category": "기관",
+      "college": "전체",
+      "name": "장학복지제도",
+      "website": "https://home.knu.ac.kr",
+      "type": "home",
+      "boards": [
+        {
+          "name": "공지사항",
+          "path": "/HOME/knussw/sub.htm?nav_code=knu1619416593"
+        }
+      ]
+    },
+    {
+      "code": "LANG",
+      "category": "기관",
+      "college": "전체",
+      "name": "언어교육센터",
+      "website": "https://lang.knu.ac.kr",
+      "type": "custom",
+      "boards": [
+        {
+          "name": "외국어교육",
+          "path": "/hmpg/cms/bbsPage/MNU0080141.knu"
+        },
+        {
+          "name": "한국어연수",
+          "path": "/hmpg/cms/bbsPage/MNU0080140.knu"
+        }
+      ]
+    },
+    {
+      "code": "SPRT",
+      "category": "기관",
+      "college": "전체",
+      "name": "체육진흥센터",
+      "website": "https://sports.knu.ac.kr",
+      "type": "custom",
+      "boards": [
+        {
+          "name": "공지사항",
+          "path": "/pages/board/list.php?board_sid=1"
+        }
+      ]
+    },
+    {
+      "code": "ALUM",
+      "category": "기관",
+      "college": "전체",
+      "name": "포항인재원",
+      "website": "https://human.knu.ac.kr",
+      "type": "custom",
+      "boards": [
+        {
+          "name": "공지사항",
+          "path": "/bbsArticle/list.do?bbsId=NOTICE"
+        }
+      ]
+    },
+    {
+      "code": "COOP",
+      "category": "기관",
+      "college": "전체",
+      "name": "생활협동조합",
+      "website": "https://coop.knu.ac.kr",
+      "type": "custom",
+      "boards": [
+        {
+          "name": "공지사항",
+          "path": "/pages/board/list.php?board_sid=1"
+        }
+      ]
+    },
+    {
+      "code": "TCHR",
+      "category": "기관",
+      "college": "전체",
+      "name": "교수학습센터",
+      "website": "https://ctl.knu.ac.kr",
+      "type": "custom",
+      "boards": [
+        {
+          "name": "공지사항",
+          "path": "/web/community/community01.php"
+        }
+      ]
+    },
+    {
       "code": "CSE",
       "category": "학과",
       "college": "IT대학",
@@ -180,6 +286,24 @@
         {
           "name": "정보광장",
           "path": "/HOME/electric/sub.htm?nav_code=ele1623042165"
+        }
+      ]
+    },
+    {
+      "code": "EMB",
+      "category": "학과",
+      "college": "IT대학",
+      "name": "전자공학부 모바일공학전공",
+      "website": "https://home.knu.ac.kr",
+      "type": "home",
+      "boards": [
+        {
+          "name": "공지사항",
+          "path": "/HOME/smobile/sub.htm?nav_code=smo1616372729"
+        },
+        {
+          "name": "모집",
+          "path": "/HOME/smobile/sub.htm?nav_code=smo1616372728"
         }
       ]
     },
@@ -264,6 +388,32 @@
         {
           "name": "구인구직",
           "path": "/HOME/vcd/sub.htm?nav_code=vcd1622551702"
+        }
+      ]
+    },
+    {
+      "code": "KOR",
+      "category": "학과",
+      "college": "인문대학",
+      "name": "국어국문학과",
+      "website": "https://home.knu.ac.kr",
+      "type": "home",
+      "boards": [
+        {
+          "name": "학사",
+          "path": "/HOME/korean/sub.htm?nav_code=kor1657071357"
+        },
+        {
+          "name": "장학/활동",
+          "path": "/HOME/korean/sub.htm?nav_code=kor1697593848"
+        },
+        {
+          "name": "일반",
+          "path": "/HOME/korean/sub.htm?nav_code=kor1697593823"
+        },
+        {
+          "name": "채용정보",
+          "path": "/HOME/korean/sub.htm?nav_code=kor1657071404"
         }
       ]
     }

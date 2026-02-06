@@ -3,7 +3,7 @@ import { unverifiedUserModel } from "../models/unverifiedUserModel.js";
 import Like, { likeModel } from "../models/likeModel.js";
 import { deadlineModel } from "../models/deadlineModel.js";
 import { getDeadlineFromNotice } from "../services/deadlineService.js";
-import { scrapeAllHome } from "../utils/scrapeFunc.js";
+import { scrapeAllHome, scrapeCOOP, scrapeTCHR } from "../utils/scrapeFunc.js";
 
 /**
  * @desc test용 표적 notice GET
@@ -13,9 +13,11 @@ const getTestNotices = async (req, res) => {
   try {
     const notices = await scrapeAllHome({
       pageRanges: {
-        INTL: {
-          국제화프로그램: 10, // 311
-          InternationalStudents: 17,
+        KOR: {
+          학사: 1,
+          "장학/활동": 1,
+          일반: 1,
+          채용정보: 1,
         },
       },
     });

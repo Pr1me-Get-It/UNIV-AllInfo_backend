@@ -5,6 +5,10 @@ import {
   scrapeKNU,
   scrapeSTRT,
   scrapeBIZS,
+  scrapeDRML,
+  scrapeSPRT,
+  scrapeCOOP,
+  scrapeTCHR,
 } from "../utils/scrapeFunc.js";
 import { noticeModel } from "../models/noticeModel.js";
 
@@ -21,7 +25,12 @@ const initRunAllScrapers = async () => {
       },
     })),
     ...(await scrapeSEE({
-      pageRanges: { 공지사항: 242, 세미나: 22, 취업: 126, 정보사랑방: 34 },
+      pageRanges: {
+        공지사항: 242,
+        세미나: 22,
+        취업: 126,
+        정보사랑방: 34,
+      },
     })),
     ...(await scrapeAllHome({
       pageRanges: {
@@ -36,9 +45,21 @@ const initRunAllScrapers = async () => {
           전시회소식: 1,
           구인구직: 1,
         },
+        INTL: { 국제화프로그램: 312, InternationalStudents: 18 },
+        CARE: { 진로취업: 62, 현장실습: 11 },
+        SCHL: { 공지사항: 51 },
+        EMB: { 공지사항: 3, 모집: 1 },
+        KOR: {
+          학사: 27,
+          "장학/활동": 37,
+          일반: 24,
+          채용정보: 3,
+        },
       },
     })),
-    ...(await scrapeKNU({ pageRanges: { 학사공지: 1, 공지사항: 1 } })),
+    ...(await scrapeKNU({
+      pageRanges: { 학사공지: 1, 공지사항: 1 },
+    })),
     ...(await scrapeSTRT({
       pageRanges: { 센터공지사항: 1, 외부공지사항: 1 },
     })),
@@ -51,6 +72,15 @@ const initRunAllScrapers = async () => {
         "공지사항(BTL)": 70,
         "공지사항(재정)": 82,
       },
+    })),
+    ...(await scrapeSPRT({
+      pageRanges: { 공지사항: 1 },
+    })),
+    ...(await scrapeCOOP({
+      pageRanges: { 공지사항: 11 },
+    })),
+    ...(await scrapeTCHR({
+      pageRanges: { 공지사항: 70 },
     })),
   );
 
