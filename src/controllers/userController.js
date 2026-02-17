@@ -1,3 +1,5 @@
+import path from "path";
+import fs from "fs";
 import UnverifiedUser, {
   unverifiedUserModel,
 } from "../models/unverifiedUserModel.js";
@@ -7,6 +9,7 @@ import UnverifiedUserPushKeyword, {
 import UnverifiedUserPushSource, {
   unverifiedUserPushSourceModel,
 } from "../models/unverifiedUserPushSourceModel.js";
+import runOcrService from "../services/auth/runOcrService.js";
 
 /**
  * @desc user registration
@@ -34,6 +37,53 @@ const registerUser = async (req, res) => {
     res
       .status(500)
       .json({ success: false, message: "Failed to register unverified user" });
+  }
+};
+
+/**
+ * @desc certify student user
+ * @route POST /user/certify
+ */
+const certifyUser = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const oldPath = req.file.path;
+    const user = await unverifiedUserModel.readByEmail(email);
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+    const newPath = path.join(
+      path.dirname(oldPath),
+      user.unverified_user_id + path.extname(oldPath),
+    );
+
+    fs.rename(oldPath, newPath, (err) => {
+      if (err) {
+        console.error("Error renaming file:", err);
+        throw err;
+      }
+    });
+
+    // ocr을 해도 조합 맞추고 ㅈㄹ하는게 에바인데
+    // include로 일단 certify하고 data는 ]
+    // 아니 모르겠다 나중에 검증 방법 생각하기
+    // 이미지 유사도 등 써야할지도
+    await runOcrService(user.unverified_user_id)
+      .then((output) => {
+        const ocrResults = output;
+        console.log("OCR Results:", ocrResults);
+      })
+      .catch((error) => {
+        console.error("Error running OCR service:", error);
+        throw error;
+      });
+
+    res.status(200).send(0);
+  } catch (error) {
+    console.error("Error in certify user:", error);
+    res.status(500).json({ success: false, message: "Failed to certify user" });
   }
 };
 
@@ -277,6 +327,7 @@ const deleteSource = async (req, res) => {
 
 export {
   registerUser,
+  certifyUser,
   registerKeyword,
   getKeywords,
   deleteKeyword,

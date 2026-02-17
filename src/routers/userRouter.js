@@ -7,12 +7,17 @@ import {
   registerSource,
   getSources,
   deleteSource,
+  certifyUser,
 } from "../controllers/userController.js";
+import uploadMiddleware from "../config/multer.js";
 
 const userRouter = express.Router();
 
 // /user/register
 userRouter.post("/register", registerUser);
+
+// /user/certify
+userRouter.post("/certify", uploadMiddleware, certifyUser);
 
 // /user/keyword
 userRouter
