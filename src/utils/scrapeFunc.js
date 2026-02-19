@@ -369,6 +369,10 @@ const scrapeSEE = async ({ pageRanges = {} }) => {
   return notices;
 };
 
+const scrapeCHN = async ({ pageRanges = {} }) => {
+  // li로 공지하는거 에바
+};
+
 export {
   scrapeKNU,
   scrapeSTRT,

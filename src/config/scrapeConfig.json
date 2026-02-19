@@ -416,6 +416,114 @@
           "path": "/HOME/korean/sub.htm?nav_code=kor1657071404"
         }
       ]
+    },
+    {
+      "code": "ENG",
+      "category": "학과",
+      "college": "인문대학",
+      "name": "영어영문학과",
+      "website": "https://home.knu.ac.kr",
+      "type": "home",
+      "boards": [
+        {
+          "name": "학부공지",
+          "path": "/HOME/english/sub.htm?nav_code=eng1621852173"
+        },
+        {
+          "name": "장학",
+          "path": "/HOME/english/sub.htm?nav_code=eng1621852181"
+        }
+      ]
+    },
+    {
+      "code": "HIS",
+      "category": "학과",
+      "college": "인문대학",
+      "name": "사학과",
+      "website": "https://home.knu.ac.kr",
+      "type": "home",
+      "boards": [
+        {
+          "name": "공지사항",
+          "path": "/HOME/history/sub.htm?nav_code=his1622521427"
+        }
+      ]
+    },
+    {
+      "code": "PHI",
+      "category": "학과",
+      "college": "인문대학",
+      "name": "철학과",
+      "website": "https://home.knu.ac.kr",
+      "type": "home",
+      "boards": [
+        {
+          "name": "공지사항",
+          "path": "/HOME/philosophy/sub.htm?nav_code=phi1623391659"
+        },
+        {
+          "name": "장학취업일반",
+          "path": "/HOME/philosophy/sub.htm?nav_code=phi1628122736"
+        }
+      ]
+    },
+    {
+      "code": "FRN",
+      "category": "학과",
+      "college": "인문대학",
+      "name": "불어불문학과",
+      "website": "https://home.knu.ac.kr",
+      "type": "home",
+      "boards": [
+        {
+          "name": "공지사항",
+          "path": "/HOME/french/sub.htm?nav_code=fre1623147753"
+        }
+      ]
+    },
+    {
+      "code": "GER",
+      "category": "학과",
+      "college": "인문대학",
+      "name": "독어독문학과",
+      "website": "https://home.knu.ac.kr",
+      "type": "home",
+      "boards": [
+        {
+          "name": "학사공지",
+          "path": "/HOME/german/sub.htm?nav_code=ger1623203350"
+        },
+        {
+          "name": "장학공지",
+          "path": "/HOME/german/sub.htm?nav_code=ger1623203397"
+        },
+        {
+          "name": "졸업공지",
+          "path": "/HOME/german/sub.htm?nav_code=ger1623203405"
+        },
+        {
+          "name": "공지사항",
+          "path": "/HOME/german/sub.htm?nav_code=ger1623133982"
+        }
+      ]
+    },
+    {
+      "code": "CHN",
+      "category": "학과",
+      "college": "인문대학",
+      "name": "중어중문학과",
+      "website": "https://chinese.knu.ac.kr",
+      "type": "custom",
+      "boards": [
+        {
+          "name": "공지사항",
+          "path": "/bbs/board.php?bo_table=notice"
+        },
+        {
+          "name": "취업게시판",
+          "path": "/bbs/board.php?bo_table=job"
+        }
+      ]
     }
   ]
 }

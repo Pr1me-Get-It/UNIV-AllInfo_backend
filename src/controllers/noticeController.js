@@ -13,11 +13,9 @@ const getTestNotices = async (req, res) => {
   try {
     const notices = await scrapeAllHome({
       pageRanges: {
-        KOR: {
-          학사: 1,
-          "장학/활동": 1,
-          일반: 1,
-          채용정보: 1,
+        ENG: {
+          학부공지: 1,
+          장학: 1,
         },
       },
     });
