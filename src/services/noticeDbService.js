@@ -1,3 +1,7 @@
+/**
+ * 이제 사용 안 하는 파일 같은데, 혹시 몰라서 계속 둠
+ */
+
 import Notice from "../models/noticeModel.js";
 import { getDeadlineFromNotice } from "./deadlineService.js";
 

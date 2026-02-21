@@ -1,106 +1,130 @@
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
-import {
-  findTwoBySource,
-  findOneLatest,
-  saveNotice,
-} from "./noticeDbService.js";
-import extractNoticesFromPath from "../utils/extractNoticesFromPath.js";
 import { scrapeLogger as logger } from "../config/logger.js";
 import { sendKeywordPush } from "./pushService.js";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const configPath = path.join(__dirname, "..", "config", "scrapeConfig.json");
-const scrapeConfigs = JSON.parse(fs.readFileSync(configPath, "utf-8"));
+import { noticeModel } from "../models/noticeModel.js";
+import {
+  scrapeCSE,
+  scrapeSEE,
+  scrapeAllHome,
+  scrapeKNU,
+  scrapeSTRT,
+  scrapeBIZS,
+  scrapeDRML,
+  scrapeSPRT,
+  scrapeCOOP,
+} from "../utils/scrapeFunc.js";
 
 /** 모든 스크랩퍼 실행 */
 const runAllScrapers = async () => {
+  const notices = [];
   const newNotices = [];
-  newNotices.push(...(await scrapeCSE()));
-  newNotices.push(...(await scrapeSEE()));
-  newNotices.push(...(await scrapeELE()));
-
-  const tickets = await sendKeywordPush(newNotices);
-  console.log("Push notification tickets:", tickets);
-};
-
-/** DB 저장 */
-const checkAndSaveNotice = async (notices, source) => {
-  let countForId = Number((await findOneLatest())?.id) || 0;
-  const newNotices = [];
-  const latestNotices = await findTwoBySource(source);
-  logger.info(
-    `Latest notices from DB for ${source.slice(0, 3)}: ${JSON.stringify(
-      latestNotices.map((n) => n.title)
-    )}`
+  notices.push(
+    ...(await scrapeCSE({
+      pageRanges: {
+        공지사항: 1,
+        학부인재모집: 1,
+        취업정보: 1,
+        세미나및행사: 1,
+      },
+    })),
+    ...(await scrapeSEE({
+      pageRanges: { 공지사항: 1, 세미나: 1, 취업: 1, 정보사랑방: 1 },
+    })),
+    ...(await scrapeAllHome({
+      pageRanges: {
+        ELE: { 공지사항: 1, 취업: 1, 정보광장: 1 },
+        MUS: { 공지사항: 1, 자료실: 1 },
+        KMU: { 공지사항: 1, 자료실: 1 },
+        ART: { 공지사항: 1, 자료실: 1 },
+        VCD: {
+          학과공지: 1,
+          학과행사: 1,
+          공모전소식: 1,
+          전시회소식: 1,
+          구인구직: 1,
+        },
+        INTL: { 국제화프로그램: 1, InternationalStudents: 1 },
+        CARE: { 진로취업: 1, 현장실습: 1 },
+        SCHL: { 공지사항: 1 },
+        EMB: { 공지사항: 1, 모집: 1 },
+        KOR: {
+          학사: 1,
+          "장학/활동": 1,
+          일반: 1,
+          채용정보: 1,
+        },
+        ENG: {
+          학부공지: 1,
+          장학: 1,
+        },
+        HIS: {
+          공지사항: 1,
+        },
+        PHI: {
+          공지사항: 1,
+          장학취업일반: 1,
+        },
+        FRN: {
+          공지사항: 1,
+        },
+        GER: {
+          학사공지: 1,
+          장학공지: 1,
+          졸업공지: 1,
+          공지사항: 1,
+        },
+      },
+    })),
+    ...(await scrapeKNU({ pageRanges: { 학사공지: 1, 공지사항: 1 } })),
+    ...(await scrapeSTRT({
+      pageRanges: { 센터공지사항: 1, 외부공지사항: 1 },
+    })),
+    ...(await scrapeBIZS({
+      pageRanges: { 공지사항: 1 },
+    })),
+    ...(await scrapeDRML({
+      pageRanges: {
+        선발공지사항: 1,
+        "공지사항(BTL)": 1,
+        "공지사항(재정)": 1,
+      },
+    })),
+    ...(await scrapeSPRT({ pageRanges: { 공지사항: 1 } })),
+    ...(await scrapeCOOP({ pageRanges: { 공지사항: 1 } })),
   );
+  newNotices.push(...(await scrapeAndSaveNotices(notices)));
+
+  // 셔플 (같은 소스 공지들 뭉쳐있는 문제 해결)
+  // 일단 해보고 나중에 문제가 짙으면 주석 해제
+  // newNotices.sort(() => Math.random() - 0.5);
+
+  // const tickets = await sendKeywordPush(newNotices);
+  // console.log("Push notification tickets:", tickets);
+};
+
+const scrapeAndSaveNotices = async (notices) => {
+  const newNotices = [];
+  let saved = 0;
+  let duplicates = 0;
+  let errors = 0;
   for (const notice of notices) {
-    // 공지가 내려가는 것 방지 2개씩 비교
-    if (
-      (latestNotices[0] && latestNotices[0].title === notice.title) ||
-      (latestNotices[1] && latestNotices[1].title === notice.title)
-    ) {
-      logger.info(`Notice already exists: "${notice.title}"`);
-      break;
+    try {
+      await noticeModel.create(notice);
+      logger.info(`Saved notice:  ${notice.title}`);
+      newNotices.push(notice);
+      saved++;
+    } catch (error) {
+      if (error.code === "ER_DUP_ENTRY") {
+        logger.info(`Duplicate notice, skipped: ${notice.title}`);
+        duplicates++;
+        continue;
+      }
+      logger.error("Error saving notice:", error);
+      errors++;
     }
-    newNotices.push(notice);
   }
-  for (const notice of newNotices.reverse()) {
-    notice.id = ++countForId;
-    await saveNotice(notice);
-    logger.info(`Saved notice: ${notice.id} "${notice.title}"`);
-  }
-  return newNotices;
-};
-
-const scrapeCSE = async () => {
-  const newNotices = [];
-  const config = scrapeConfigs.find((c) => c.name === "CSE");
-  for (const p of config.paths) {
-    const { notices, source } = await extractNoticesFromPath(config, p, {
-      titleTdIndex: 1,
-      dateTdIndex: 4,
-      linkAnchorIndex: 1,
-    });
-    const newNoticesFromCheck = await checkAndSaveNotice(notices, source);
-    newNotices.push(...newNoticesFromCheck);
-  }
-
-  return newNotices;
-};
-
-const scrapeSEE = async () => {
-  const config = scrapeConfigs.find((c) => c.name === "SEE");
-  const newNotices = [];
-  for (const p of config.paths) {
-    const { notices, source } = await extractNoticesFromPath(config, p, {
-      titleTdIndex: 1,
-      dateTdIndex: 3,
-      linkAnchorIndex: null,
-    });
-    const newNoticesFromCheck = await checkAndSaveNotice(notices, source);
-    newNotices.push(...newNoticesFromCheck);
-  }
-
-  return newNotices;
-};
-
-const scrapeELE = async () => {
-  const config = scrapeConfigs.find((c) => c.name === "ELE");
-  const newNotices = [];
-  for (const p of config.paths) {
-    const { notices, source } = await extractNoticesFromPath(config, p, {
-      titleTdIndex: 1,
-      dateTdIndex: 4,
-      linkAnchorIndex: null,
-    });
-    const newNoticesFromCheck = await checkAndSaveNotice(notices, source);
-    newNotices.push(...newNoticesFromCheck);
-  }
-
+  logger.info(
+    `Summary: ${saved} saved, ${duplicates} duplicates, ${errors} errors.`,
+  );
   return newNotices;
 };
 

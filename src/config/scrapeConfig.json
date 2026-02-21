@@ -1,34 +1,529 @@
-[
-  {
-    "name": "CSE",
-    "description": "컴퓨터학부 홈페이지",
-    "baseUrl": "https://cse.knu.ac.kr",
-    "paths": [
-      "/bbs/board.php?bo_table=sub5_1",
-      "/bbs/board.php?bo_table=sub5_3_a",
-      "/bbs/board.php?bo_table=sub5_3_b",
-      "/bbs/board.php?bo_table=sub5_4"
-    ]
+{
+  "metadata": {
+    "version": "0.1",
+    "lastUpdated": "2026-02-06",
+    "description": "경북대학교 학과 및 기관별 공지사항 스크래핑 설정"
   },
-  {
-    "name": "SEE",
-    "description": "전자공학부 홈페이지",
-    "baseUrl": "https://see.knu.ac.kr",
-    "paths": [
-      "/content/board/notice.html",
-      "/content/board/seminar.html",
-      "/content/board/employment.html",
-      "/content/board/information.html"
-    ]
-  },
-  {
-    "name": "ELE",
-    "description": "전기공학과 홈페이지",
-    "baseUrl": "https://home.knu.ac.kr",
-    "paths": [
-      "/HOME/electric/sub.htm?nav_code=ele1622787198",
-      "/HOME/electric/sub.htm?nav_code=ele1622787195",
-      "/HOME/electric/sub.htm?nav_code=ele1623042165"
-    ]
-  }
-]
+  "sources": [
+    {
+      "code": "LMS",
+      "category": "시스템",
+      "college": "전체",
+      "name": "학습관리시스템",
+      "website": "https://lms1.knu.ac.kr",
+      "type": "custom",
+      "boards": [
+        {
+          "name": "공지",
+          "path": "/boards/5fec7dcdf1906539b60ea854/posts"
+        }
+      ]
+    },
+    {
+      "code": "NEWS",
+      "category": "기관",
+      "college": "전체",
+      "name": "경북대학교",
+      "website": "https://www.knu.ac.kr",
+      "type": "custom",
+      "boards": [
+        {
+          "name": "학사공지",
+          "path": "/wbbs/wbbs/bbs/btin/stdList.action?menu_idx=42"
+        },
+        {
+          "name": "공지사항",
+          "path": "/wbbs/wbbs/bbs/btin/list.action?bbs_cde=1&menu_idx=67"
+        }
+      ]
+    },
+    {
+      "code": "STRT",
+      "category": "기관",
+      "college": "전체",
+      "name": "창업교육센터",
+      "website": "https://changup.knu.ac.kr",
+      "type": "custom",
+      "boards": [
+        {
+          "name": "센터공지사항",
+          "path": "/changup/Board?menuId=MENU_CHANGUP0051"
+        },
+        {
+          "name": "외부공지사항",
+          "path": "/changup/Board2?menuId=MENU_CHANGUP0053"
+        }
+      ]
+    },
+    {
+      "code": "BIZS",
+      "category": "기관",
+      "college": "전체",
+      "name": "창업지원단",
+      "website": "https://startup.knu.ac.kr",
+      "type": "custom",
+      "boards": [
+        {
+          "name": "공지사항",
+          "path": "/bbs/board.php?bo_table=noti2"
+        }
+      ]
+    },
+    {
+      "code": "DRML",
+      "category": "기관",
+      "college": "전체",
+      "name": "생활관",
+      "website": "https://dorm.knu.ac.kr",
+      "type": "custom",
+      "boards": [
+        {
+          "name": "선발공지사항",
+          "path": "/app/board24"
+        },
+        {
+          "name": "공지사항(BTL)",
+          "path": "/app/board21"
+        },
+        {
+          "name": "공지사항(재정)",
+          "path": "/app/board2"
+        }
+      ]
+    },
+    {
+      "code": "INTL",
+      "category": "기관",
+      "college": "전체",
+      "name": "국제교류처",
+      "website": "https://home.knu.ac.kr",
+      "type": "home",
+      "boards": [
+        {
+          "name": "국제화프로그램",
+          "path": "/HOME/global/sub.htm?nav_code=glo1729572883"
+        },
+        {
+          "name": "InternationalStudents",
+          "path": "/HOME/global/sub.htm?nav_code=glo1729648656"
+        }
+      ]
+    },
+    {
+      "code": "CARE",
+      "category": "기관",
+      "college": "전체",
+      "name": "진로취업과",
+      "website": "https://home.knu.ac.kr/",
+      "type": "home",
+      "boards": [
+        {
+          "name": "진로취업",
+          "path": "/HOME/knujob/sub.htm?nav_code=knu1623817159"
+        },
+        {
+          "name": "현장실습",
+          "path": "/HOME/knujob/sub.htm?nav_code=knu1623826179"
+        }
+      ]
+    },
+    {
+      "code": "SCHL",
+      "category": "기관",
+      "college": "전체",
+      "name": "장학복지제도",
+      "website": "https://home.knu.ac.kr",
+      "type": "home",
+      "boards": [
+        {
+          "name": "공지사항",
+          "path": "/HOME/knussw/sub.htm?nav_code=knu1619416593"
+        }
+      ]
+    },
+    {
+      "code": "LANG",
+      "category": "기관",
+      "college": "전체",
+      "name": "언어교육센터",
+      "website": "https://lang.knu.ac.kr",
+      "type": "custom",
+      "boards": [
+        {
+          "name": "외국어교육",
+          "path": "/hmpg/cms/bbsPage/MNU0080141.knu"
+        },
+        {
+          "name": "한국어연수",
+          "path": "/hmpg/cms/bbsPage/MNU0080140.knu"
+        }
+      ]
+    },
+    {
+      "code": "SPRT",
+      "category": "기관",
+      "college": "전체",
+      "name": "체육진흥센터",
+      "website": "https://sports.knu.ac.kr",
+      "type": "custom",
+      "boards": [
+        {
+          "name": "공지사항",
+          "path": "/pages/board/list.php?board_sid=1"
+        }
+      ]
+    },
+    {
+      "code": "ALUM",
+      "category": "기관",
+      "college": "전체",
+      "name": "포항인재원",
+      "website": "https://human.knu.ac.kr",
+      "type": "custom",
+      "boards": [
+        {
+          "name": "공지사항",
+          "path": "/bbsArticle/list.do?bbsId=NOTICE"
+        }
+      ]
+    },
+    {
+      "code": "COOP",
+      "category": "기관",
+      "college": "전체",
+      "name": "생활협동조합",
+      "website": "https://coop.knu.ac.kr",
+      "type": "custom",
+      "boards": [
+        {
+          "name": "공지사항",
+          "path": "/pages/board/list.php?board_sid=1"
+        }
+      ]
+    },
+    {
+      "code": "TCHR",
+      "category": "기관",
+      "college": "전체",
+      "name": "교수학습센터",
+      "website": "https://ctl.knu.ac.kr",
+      "type": "custom",
+      "boards": [
+        {
+          "name": "공지사항",
+          "path": "/web/community/community01.php"
+        }
+      ]
+    },
+    {
+      "code": "CSE",
+      "category": "학과",
+      "college": "IT대학",
+      "name": "컴퓨터학부",
+      "website": "https://cse.knu.ac.kr",
+      "type": "custom",
+      "boards": [
+        {
+          "name": "공지사항",
+          "path": "/bbs/board.php?bo_table=sub5_1"
+        },
+        {
+          "name": "학부인재모집",
+          "path": "/bbs/board.php?bo_table=sub5_3_a"
+        },
+        {
+          "name": "취업정보",
+          "path": "/bbs/board.php?bo_table=sub5_3_b"
+        },
+        {
+          "name": "세미나및행사",
+          "path": "/bbs/board.php?bo_table=sub5_4"
+        }
+      ]
+    },
+    {
+      "code": "SEE",
+      "category": "학과",
+      "college": "IT대학",
+      "name": "전자공학부",
+      "website": "https://see.knu.ac.kr",
+      "type": "custom",
+      "boards": [
+        {
+          "name": "공지사항",
+          "path": "/content/board/notice.html"
+        },
+        {
+          "name": "세미나",
+          "path": "/content/board/seminar.html"
+        },
+        {
+          "name": "취업",
+          "path": "/content/board/employment.html"
+        },
+        {
+          "name": "정보사랑방",
+          "path": "/content/board/information.html"
+        }
+      ]
+    },
+    {
+      "code": "ELE",
+      "category": "학과",
+      "college": "IT대학",
+      "name": "전기공학과",
+      "website": "https://home.knu.ac.kr",
+      "type": "home",
+      "boards": [
+        {
+          "name": "공지사항",
+          "path": "/HOME/electric/sub.htm?nav_code=ele1622787198"
+        },
+        {
+          "name": "취업",
+          "path": "/HOME/electric/sub.htm?nav_code=ele1622787195"
+        },
+        {
+          "name": "정보광장",
+          "path": "/HOME/electric/sub.htm?nav_code=ele1623042165"
+        }
+      ]
+    },
+    {
+      "code": "EMB",
+      "category": "학과",
+      "college": "IT대학",
+      "name": "전자공학부 모바일공학전공",
+      "website": "https://home.knu.ac.kr",
+      "type": "home",
+      "boards": [
+        {
+          "name": "공지사항",
+          "path": "/HOME/smobile/sub.htm?nav_code=smo1616372729"
+        },
+        {
+          "name": "모집",
+          "path": "/HOME/smobile/sub.htm?nav_code=smo1616372728"
+        }
+      ]
+    },
+    {
+      "code": "MUS",
+      "category": "학과",
+      "college": "예술대학",
+      "name": "음악학과",
+      "website": "https://home.knu.ac.kr",
+      "type": "home",
+      "boards": [
+        {
+          "name": "공지사항",
+          "path": "/HOME/music/sub.htm?nav_code=mus1622610244"
+        },
+        {
+          "name": "자료실",
+          "path": "/HOME/music/sub.htm?nav_code=mus1622610243"
+        }
+      ]
+    },
+    {
+      "code": "KMU",
+      "category": "학과",
+      "college": "예술대학",
+      "name": "국악학과",
+      "website": "https://home.knu.ac.kr",
+      "type": "home",
+      "boards": [
+        {
+          "name": "공지사항",
+          "path": "/HOME/kmusic/sub.htm?nav_code=kmu1622609949"
+        },
+        {
+          "name": "자료실",
+          "path": "/HOME/kmusic/sub.htm?nav_code=kmu1622609948"
+        }
+      ]
+    },
+    {
+      "code": "ART",
+      "category": "학과",
+      "college": "예술대학",
+      "name": "미술학과",
+      "website": "https://home.knu.ac.kr",
+      "type": "home",
+      "boards": [
+        {
+          "name": "공지사항",
+          "path": "/HOME/arts/sub.htm?nav_code=art1623199694"
+        },
+        {
+          "name": "자료실",
+          "path": "/HOME/arts/sub.htm?nav_code=art1623199693"
+        }
+      ]
+    },
+    {
+      "code": "VCD",
+      "category": "학과",
+      "college": "예술대학",
+      "name": "디자인학과",
+      "website": "https://home.knu.ac.kr",
+      "type": "home",
+      "boards": [
+        {
+          "name": "학과공지",
+          "path": "/HOME/vcd/sub.htm?nav_code=vcd1622551643"
+        },
+        {
+          "name": "학과행사",
+          "path": "/HOME/vcd/sub.htm?nav_code=vcd1622551671"
+        },
+        {
+          "name": "공모전소식",
+          "path": "/HOME/vcd/sub.htm?nav_code=vcd1622551681"
+        },
+        {
+          "name": "전시회소식",
+          "path": "/HOME/vcd/sub.htm?nav_code=vcd1622551690"
+        },
+        {
+          "name": "구인구직",
+          "path": "/HOME/vcd/sub.htm?nav_code=vcd1622551702"
+        }
+      ]
+    },
+    {
+      "code": "KOR",
+      "category": "학과",
+      "college": "인문대학",
+      "name": "국어국문학과",
+      "website": "https://home.knu.ac.kr",
+      "type": "home",
+      "boards": [
+        {
+          "name": "학사",
+          "path": "/HOME/korean/sub.htm?nav_code=kor1657071357"
+        },
+        {
+          "name": "장학/활동",
+          "path": "/HOME/korean/sub.htm?nav_code=kor1697593848"
+        },
+        {
+          "name": "일반",
+          "path": "/HOME/korean/sub.htm?nav_code=kor1697593823"
+        },
+        {
+          "name": "채용정보",
+          "path": "/HOME/korean/sub.htm?nav_code=kor1657071404"
+        }
+      ]
+    },
+    {
+      "code": "ENG",
+      "category": "학과",
+      "college": "인문대학",
+      "name": "영어영문학과",
+      "website": "https://home.knu.ac.kr",
+      "type": "home",
+      "boards": [
+        {
+          "name": "학부공지",
+          "path": "/HOME/english/sub.htm?nav_code=eng1621852173"
+        },
+        {
+          "name": "장학",
+          "path": "/HOME/english/sub.htm?nav_code=eng1621852181"
+        }
+      ]
+    },
+    {
+      "code": "HIS",
+      "category": "학과",
+      "college": "인문대학",
+      "name": "사학과",
+      "website": "https://home.knu.ac.kr",
+      "type": "home",
+      "boards": [
+        {
+          "name": "공지사항",
+          "path": "/HOME/history/sub.htm?nav_code=his1622521427"
+        }
+      ]
+    },
+    {
+      "code": "PHI",
+      "category": "학과",
+      "college": "인문대학",
+      "name": "철학과",
+      "website": "https://home.knu.ac.kr",
+      "type": "home",
+      "boards": [
+        {
+          "name": "공지사항",
+          "path": "/HOME/philosophy/sub.htm?nav_code=phi1623391659"
+        },
+        {
+          "name": "장학취업일반",
+          "path": "/HOME/philosophy/sub.htm?nav_code=phi1628122736"
+        }
+      ]
+    },
+    {
+      "code": "FRN",
+      "category": "학과",
+      "college": "인문대학",
+      "name": "불어불문학과",
+      "website": "https://home.knu.ac.kr",
+      "type": "home",
+      "boards": [
+        {
+          "name": "공지사항",
+          "path": "/HOME/french/sub.htm?nav_code=fre1623147753"
+        }
+      ]
+    },
+    {
+      "code": "GER",
+      "category": "학과",
+      "college": "인문대학",
+      "name": "독어독문학과",
+      "website": "https://home.knu.ac.kr",
+      "type": "home",
+      "boards": [
+        {
+          "name": "학사공지",
+          "path": "/HOME/german/sub.htm?nav_code=ger1623203350"
+        },
+        {
+          "name": "장학공지",
+          "path": "/HOME/german/sub.htm?nav_code=ger1623203397"
+        },
+        {
+          "name": "졸업공지",
+          "path": "/HOME/german/sub.htm?nav_code=ger1623203405"
+        },
+        {
+          "name": "공지사항",
+          "path": "/HOME/german/sub.htm?nav_code=ger1623133982"
+        }
+      ]
+    },
+    {
+      "code": "CHN",
+      "category": "학과",
+      "college": "인문대학",
+      "name": "중어중문학과",
+      "website": "https://chinese.knu.ac.kr",
+      "type": "custom",
+      "boards": [
+        {
+          "name": "공지사항",
+          "path": "/bbs/board.php?bo_table=notice"
+        },
+        {
+          "name": "취업게시판",
+          "path": "/bbs/board.php?bo_table=job"
+        }
+      ]
+    }
+  ]
+}

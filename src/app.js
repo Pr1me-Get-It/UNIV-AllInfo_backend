@@ -4,8 +4,9 @@ import cors from "cors";
 import logger from "./config/logger.js";
 import router from "./routers/index.js";
 import createMorganMiddleware from "./config/morgan.js";
-import dbConnect from "./config/dbConnect.js";
 import scrapeScheduler from "./schedulers/scrapeScheduler.js";
+import initRunAllScrapers from "./services/initScrapeService.js";
+import runAllScrapers from "./services/scrapeService.js";
 
 dotenv.config();
 
@@ -34,8 +35,7 @@ app.use(createMorganMiddleware(logger));
 
 const PORT = process.env.PORT;
 
-await dbConnect();
-
+// 개발 중 스케줄러 비활성화
 try {
   scrapeScheduler.start();
   console.log(" ✔ Started - Scrape scheduler Status");
@@ -47,4 +47,6 @@ app.use("/", router);
 
 app.listen(PORT, "0.0.0.0", () => {
   console.log(` ✔ Running - Server Status on PORT ${PORT}`);
+  // initRunAllScrapers();
+  // runAllScrapers();
 });
