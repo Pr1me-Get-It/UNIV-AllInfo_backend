@@ -24,7 +24,7 @@ const create = async (unverifiedUser) => {
       email,
       expo_push_token
     ) VALUES (?, ?)`,
-    [unverifiedUser.email, unverifiedUser.expoPushToken]
+    [unverifiedUser.email, unverifiedUser.expoPushToken],
   );
   return result;
 };
@@ -36,7 +36,7 @@ const getAllWithKeywords = async () => {
      FROM unverified_users u
      INNER JOIN unverified_user_push_keywords k
        ON u.unverified_user_id = k.user_id
-     GROUP BY u.unverified_user_id`
+     GROUP BY u.unverified_user_id`,
   );
   return rows.map((r) => ({
     unverified_user_id: r.unverified_user_id,
@@ -46,10 +46,15 @@ const getAllWithKeywords = async () => {
   }));
 };
 
+const remove = async (email) => {
+  await query(`DELETE FROM unverified_users WHERE email = ?`, [email]);
+};
+
 export const unverifiedUserModel = {
   getAll,
   readByEmail,
   create,
   getAllWithKeywords,
+  remove,
 };
 export default UnverifiedUser;

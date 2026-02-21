@@ -37,6 +37,26 @@ const registerUser = async (req, res) => {
   }
 };
 
+const deleteUser = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = (await unverifiedUserModel.readByEmail(email)) || null;
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+    await unverifiedUserModel.remove(email);
+    res.status(200).json({
+      success: true,
+      message: "User deleted successfully",
+    });
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    res.status(500).json({ success: false, message: "Failed to delete user" });
+  }
+};
+
 /**
  * @desc register keyword for user
  * @route POST /user/keywords
@@ -277,6 +297,7 @@ const deleteSource = async (req, res) => {
 
 export {
   registerUser,
+  deleteUser,
   registerKeyword,
   getKeywords,
   deleteKeyword,

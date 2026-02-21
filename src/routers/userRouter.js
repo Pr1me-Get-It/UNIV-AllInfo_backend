@@ -1,6 +1,7 @@
 import express from "express";
 import {
   registerUser,
+  deleteUser,
   registerKeyword,
   getKeywords,
   deleteKeyword,
@@ -12,7 +13,7 @@ import {
 const userRouter = express.Router();
 
 // /user/register
-userRouter.post("/register", registerUser);
+userRouter.route("/register").post(registerUser).delete(deleteUser);
 
 // /user/keyword
 userRouter
