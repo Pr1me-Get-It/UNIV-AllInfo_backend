@@ -51,11 +51,11 @@ const sendKeywordPush = async (newNotices) => {
       const message = buildPushMessage(
         user.expoPushToken,
         `[${Object.keys(noticeForPush).join(
-          ", "
+          ", ",
         )}] 관련 새 공고가 등록되었습니다!`,
-        `${Object.values(noticeForPush)[0][0].title.slice(0, 30)}... 외 ${
+        `${Object.values(noticeForPush)[0][0]?.title?.slice(0, 30)}... 외 ${
           Object.keys(noticeForPush).length - 1
-        }건`
+        }건`,
       );
       console.log("Built push message for user:", message);
       messages.push(message);
@@ -65,7 +65,7 @@ const sendKeywordPush = async (newNotices) => {
       const message = buildPushMessage(
         user.expoPushToken,
         `[${keyword}] 관련 새 공고가 등록되었습니다!`,
-        `${notices[0][0].title.slice(0, 30)}...`
+        `${notices[0][0]?.title?.slice(0, 30)}...`,
       );
       console.log("Built push message for user:", message);
       messages.push(message);
