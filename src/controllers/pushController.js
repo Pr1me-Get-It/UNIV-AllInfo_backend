@@ -12,7 +12,7 @@ const testPush = async (req, res) => {
   try {
     const { email, title, body } = req.body;
     const expoPushToken = (await unverifiedUserModel.readByEmail(email))
-      .expoPushToken;
+      .expo_push_token;
     console.log("expoPushToken:", expoPushToken);
     const message = buildPushMessage(expoPushToken, title, body);
     await sendPushNotification([message]);

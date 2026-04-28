@@ -97,8 +97,8 @@ const runAllScrapers = async () => {
   // 일단 해보고 나중에 문제가 짙으면 주석 해제
   // newNotices.sort(() => Math.random() - 0.5);
 
-  // const tickets = await sendKeywordPush(newNotices);
-  // console.log("Push notification tickets:", tickets);
+  const tickets = await sendKeywordPush(newNotices);
+  console.log("Push notification tickets:", tickets);
 };
 
 const scrapeAndSaveNotices = async (notices) => {

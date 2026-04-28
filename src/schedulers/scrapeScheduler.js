@@ -18,7 +18,7 @@ const scrapeScheduler = nodeCron.schedule(
   },
   {
     timezone: "Asia/Seoul",
-  }
+  },
 );
 
 export default scrapeScheduler;
